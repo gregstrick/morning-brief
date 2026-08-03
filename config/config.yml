@@ -1,6 +1,6 @@
 timezone: America/Chicago
 site_title: "Morning Brief"
-max_headlines: 12
+max_headlines: 16
 headline_window_hours: 18       # ignore RSS items older than this
 # Optional: URL of a Cloudflare Worker (or similar) that proxies Yahoo Finance
 # quotes with a CORS header, enabling the Watchlist tab's live ticker lookup
@@ -157,3 +157,13 @@ rss_feeds:
     url: "https://feeds.content.dowjones.io/public/rss/mw_marketpulse"
   - name: "Yahoo Finance"
     url: "https://finance.yahoo.com/news/rssindex"
+  - name: "Investing.com"
+    url: "https://www.investing.com/rss/news.rss"
+  - name: "Benzinga"
+    url: "https://www.benzinga.com/feed"
+  - name: "Motley Fool"
+    url: "https://www.fool.com/feeds/index.aspx"
+  - name: "Nasdaq"
+    url: "https://www.nasdaq.com/feed/rssoutbound?category=Markets"
+  - name: "Federal Reserve"
+    url: "https://www.federalreserve.gov/feeds/press_all.xml"

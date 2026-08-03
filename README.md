@@ -15,7 +15,9 @@ them):
    etc.), so there's no API key, no cost, and no third-party ToS to worry about.
 2. **News & Calendar** — an overnight recap, today's economic releases and Fed speakers, the rest of this
    week's high-impact releases and Fed speakers (**This Week**), today's earnings reporters, and headlines
-   from multiple reputable sources (CNBC, MarketWatch, Yahoo Finance).
+   from eight sources (CNBC, MarketWatch, Yahoo Finance, Investing.com, Benzinga, Motley Fool, Nasdaq, the
+   Federal Reserve's own press releases), picked round-robin across sources rather than pure recency so one
+   prolific feed can't crowd out the rest of the list.
 3. **Movers** — today's biggest pre-market gainers/losers (outliers) across the scan universe.
 4. **Watchlist** — your configured tickers, with a **Customize** toggle to show/hide and reorder them
    (saved in your browser). With the optional Cloudflare Worker proxy configured (see
@@ -73,11 +75,20 @@ iteration — hard-reload or bump the `CACHE` constant in `site/sw.js` if a stal
 | Futures, rates, FX, commodities, crypto, watchlist, movers, sectors | Yahoo Finance via `yfinance` | Unofficial/scraped; pin the version in `requirements.txt` |
 | Economic calendar | ForexFactory weekly feed, URL in `config.yml` (`economic_calendar_url`) | If it ever 404s, check the ForexFactory calendar-widget docs for the current feed URL |
 | Earnings | Nasdaq calendar API, Finnhub fallback | Nasdaq occasionally blocks datacenter IPs (GitHub runners); Finnhub needs `FINNHUB_API_KEY` |
-| Headlines | RSS feeds listed in `config.yml` (`rss_feeds`) | CNBC, MarketWatch, Yahoo Finance |
+| Headlines | RSS feeds listed in `config.yml` (`rss_feeds`) | 8 sources: CNBC (x4), MarketWatch (x2), Yahoo Finance, Investing.com, Benzinga, Motley Fool, Nasdaq, Federal Reserve. Picked round-robin by source, not pure recency. |
 | Watchlist tab's live prices + Add a Ticker | Your own Cloudflare Worker (optional) → Yahoo Finance | See below; blank `quote_proxy_url` leaves the watchlist at this morning's snapshot with no add-ticker box |
 
 A card showing "Data unavailable this morning" for more than a few days in a row usually means a feed URL
 moved — check the corresponding row above first.
+
+**Why no X/Twitter headlines:** checked this directly rather than assume. X killed free API access years
+ago (meaningful access starts at $100+/month), and Nitter — the free workaround — is effectively dead: X's
+terms of service prohibit scraping, which is exactly why almost every public Nitter instance has been shut
+down. What's left are third-party services that scrape X anyway, which isn't a foundation this project
+wants to depend on (same reasoning as skipping Seeking Alpha's feed over its redistribution terms, or
+building the Cloudflare Worker instead of routing around Yahoo's CORS block — this project tries to stay on
+the right side of ToS rather than work around it). In practice, genuinely market-moving X/Fintwit posts
+usually get covered within minutes by the mainstream sources already in the feed list above.
 
 ## Live ticker lookup (optional)
 

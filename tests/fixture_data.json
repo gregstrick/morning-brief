@@ -1,35 +1,35 @@
 {
-  "fetched_at": "2026-08-02T22:46:09.087834-05:00",
+  "fetched_at": "2026-08-02T23:13:58.343352-05:00",
   "markets": {
-    "fetched_at": "2026-08-02T22:46:09.087842-05:00",
+    "fetched_at": "2026-08-02T23:13:58.343366-05:00",
     "futures": [
       {
         "symbol": "ES=F",
         "name": "S&P 500",
-        "last": 7560.5,
-        "prev_close": 7519.25,
-        "change_pct": 0.5486
+        "last": 7561.5,
+        "prev_close": 7552.5,
+        "change_pct": 0.1192
       },
       {
         "symbol": "NQ=F",
         "name": "Nasdaq 100",
-        "last": 28653.5,
-        "prev_close": 28404.25,
-        "change_pct": 0.8775
+        "last": 28663.75,
+        "prev_close": 28587.25,
+        "change_pct": 0.2676
       },
       {
         "symbol": "YM=F",
         "name": "Dow",
-        "last": 52884.0,
-        "prev_close": 52635.0,
-        "change_pct": 0.4731
+        "last": 52902.0,
+        "prev_close": 52848.0,
+        "change_pct": 0.1022
       },
       {
         "symbol": "RTY=F",
         "name": "Russell 2000",
-        "last": 2955.300048828125,
-        "prev_close": 2938.0,
-        "change_pct": 0.5888
+        "last": 2955.699951171875,
+        "prev_close": 2951.0,
+        "change_pct": 0.1593
       }
     ],
     "volatility": [
@@ -45,16 +45,16 @@
       {
         "symbol": "^N225",
         "name": "Nikkei 225 (closed)",
-        "last": 63297.3203125,
+        "last": 63718.421875,
         "prev_close": 64299.390625,
-        "change_pct": -1.5584
+        "change_pct": -0.9035
       },
       {
         "symbol": "^HSI",
         "name": "Hang Seng (closed)",
-        "last": 25927.5,
+        "last": 25897.7890625,
         "prev_close": 25884.4296875,
-        "change_pct": 0.1664
+        "change_pct": 0.0516
       },
       {
         "symbol": "000001.SS",
@@ -119,44 +119,44 @@
       {
         "symbol": "DX-Y.NYB",
         "name": "Dollar index",
-        "last": 99.75299835205078,
-        "prev_close": 99.8030014038086,
-        "change_pct": -0.0501
+        "last": 99.72200012207031,
+        "prev_close": 99.66400146484375,
+        "change_pct": 0.0582
       },
       {
         "symbol": "CL=F",
         "name": "WTI crude",
-        "last": 79.98999786376953,
-        "prev_close": 84.66999816894531,
-        "change_pct": -5.5273
+        "last": 79.7699966430664,
+        "prev_close": 80.62999725341797,
+        "change_pct": -1.0666
       },
       {
         "symbol": "BZ=F",
         "name": "Brent",
-        "last": 90.12000274658203,
+        "last": 90.12,
         "prev_close": 88.05000305175781,
         "change_pct": 2.3509
       },
       {
         "symbol": "GC=F",
         "name": "Gold",
-        "last": 4117.2001953125,
+        "last": 4121.39990234375,
         "prev_close": 4107.0,
-        "change_pct": 0.2484
+        "change_pct": 0.3506
       },
       {
         "symbol": "BTC-USD",
         "name": "Bitcoin",
-        "last": 62939.80859375,
+        "last": 62790.328125,
         "prev_close": 63499.48828125,
-        "change_pct": -0.8814
+        "change_pct": -1.1168
       },
       {
         "symbol": "ETH-USD",
         "name": "Ether",
-        "last": 1857.2099609375,
+        "last": 1855.68994140625,
         "prev_close": 1883.3499755859375,
-        "change_pct": -1.388
+        "change_pct": -1.4687
       }
     ],
     "recap": {
@@ -501,7 +501,7 @@
     }
   },
   "calendar": {
-    "fetched_at": "2026-08-02T22:46:55.232760-05:00",
+    "fetched_at": "2026-08-02T23:14:34.645321-05:00",
     "events": [],
     "week": [
       {
@@ -677,12 +677,60 @@
       "shown": [],
       "overflow_count": 0
     },
-    "fetched_at": "2026-08-02T22:46:09.087813-05:00",
+    "fetched_at": "2026-08-02T23:13:58.343295-05:00",
     "source": null
   },
   "news": {
-    "fetched_at": "2026-08-02T22:46:56.410027-05:00",
+    "fetched_at": "2026-08-02T23:14:38.881247-05:00",
     "headlines": [
+      {
+        "title": "Why the U.S. stepped in after decades to prop up Japan's yen \u2014 and what's at stake",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/03/japan-yen-intervention-us-treasurys-euros-.html",
+        "published_ct": "2026-08-02T23:03:53-05:00"
+      },
+      {
+        "title": "U.S., Japan confirm coordinated yen intervention, signal readiness for more",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/03/yen-intervention-us-japan-trump-bessent-katayama.html",
+        "published_ct": "2026-08-02T23:03:08-05:00"
+      },
+      {
+        "title": "Vista Group H1 2026 slides: SaaS revenue surges 38%, guidance raised",
+        "source": "Investing.com",
+        "url": "https://www.investing.com/news/company-news/vista-group-h1-2026-slides-saas-revenue-surges-38-guidance-raised-93CH-4829762",
+        "published_ct": "2026-08-02T22:54:09-05:00"
+      },
+      {
+        "title": "Asia stocks retreat as KOSPI sinks 4%; AI selloff outweighs Iran optimism",
+        "source": "Investing.com",
+        "url": "https://www.investing.com/news/stock-market-news/asia-stocks-retreat-as-kospi-sinks-4-ai-selloff-outweighs-iran-optimism-4829761",
+        "published_ct": "2026-08-02T22:47:26-05:00"
+      },
+      {
+        "title": "The Bond Market Is Doing Something for the First Time in Nearly 20 Years. Here's What It Means for Investors.",
+        "source": "Motley Fool",
+        "url": "https://www.fool.com/investing/2026/08/02/bond-market-doing-something-first-time-20-years/?source=iedfolrf0000001",
+        "published_ct": "2026-08-02T22:30:00-05:00"
+      },
+      {
+        "title": "Australian Market Trims Early Losses In Mid-market",
+        "source": "Nasdaq",
+        "url": "https://www.nasdaq.com/articles/australian-market-trims-early-losses-mid-market",
+        "published_ct": "2026-08-02T22:26:10-05:00"
+      },
+      {
+        "title": "Asian Markets Trade Mixed",
+        "source": "Nasdaq",
+        "url": "https://www.nasdaq.com/articles/asian-markets-trade-mixed-3",
+        "published_ct": "2026-08-02T22:10:43-05:00"
+      },
+      {
+        "title": "If Artificial Intelligence Is in a Bubble, These Are the Stocks That Could Benefit Most",
+        "source": "Motley Fool",
+        "url": "https://www.fool.com/investing/2026/08/02/if-artificial-intelligence-is-in-a-bubble-these-ar/?source=iedfolrf0000001",
+        "published_ct": "2026-08-02T22:00:00-05:00"
+      },
       {
         "title": "Oil drops over 4% as Middle East tensions ebb on diplomatic efforts",
         "source": "CNBC Top News",
@@ -690,52 +738,10 @@
         "published_ct": "2026-08-02T21:33:19-05:00"
       },
       {
-        "title": "Trump says Iran talks to resume Monday after calling off planned strikes",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/03/trump-iran-us-negotiations-peace-proposals-.html",
-        "published_ct": "2026-08-02T21:23:21-05:00"
-      },
-      {
-        "title": "U.S., Japan confirm coordinated yen intervention, signal readiness for more",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/03/yen-intervention-us-japan-trump-bessent-katayama.html",
-        "published_ct": "2026-08-02T19:59:33-05:00"
-      },
-      {
-        "title": "AstraZeneca in talks with Bristol Myers Squibb on $400 billion megadeal, FT reports",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/02/astrazeneca-and-bristol-myers-squibb-mull-400-billion-deal-report-.html",
-        "published_ct": "2026-08-02T17:17:47-05:00"
-      },
-      {
-        "title": "Here's my power rankings for the big 4 hyperscalers after this earnings season",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/02/heres-my-power-rankings-for-the-big-4-hyperscalers-after-this-earnings-season.html",
-        "published_ct": "2026-08-02T15:27:44-05:00"
-      },
-      {
-        "title": "GOP Sen. Moreno says ex-son-in-law Max Miller shouldn't serve in House, needs 'serious psychological help'",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/02/bernie-moreno-max-miller-house-psychological-help-emily-moreno.html",
-        "published_ct": "2026-08-02T14:13:47-05:00"
-      },
-      {
-        "title": "Op-ed: The U.S. lead over China in AI is all but gone. We need a change in national strategy",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/02/ai-model-competition-us-china.html",
-        "published_ct": "2026-08-02T13:23:03-05:00"
-      },
-      {
         "title": "We\u2019re in our 60s with $1.5 million. Would a trust be more effective than a will to prevent conflict among our heirs?",
         "source": "MarketWatch Top",
         "url": "https://www.marketwatch.com/story/we-already-have-wills-were-in-our-60s-with-1-5-million-how-do-we-prevent-family-drama-among-our-heirs-bf7b0eb1?mod=mw_rss_topstories",
         "published_ct": "2026-08-02T12:00:00-05:00"
-      },
-      {
-        "title": "Looking at just the odds isn\u2019t enough. How traders gain an edge on prediction markets",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/01/traders-go-full-time-on-prediction-markets-using-ai-bots-and-antennas.html",
-        "published_ct": "2026-08-02T11:54:18-05:00"
       },
       {
         "title": "Cathie Wood sells $5.5 million of surging tech stock",
@@ -754,6 +760,24 @@
         "source": "MarketWatch Top",
         "url": "https://www.marketwatch.com/story/my-girlfriend-is-62-can-she-claim-her-late-husbands-full-social-security-benefit-or-does-she-have-to-wait-315c0fa1?mod=mw_rss_topstories",
         "published_ct": "2026-08-02T11:00:00-05:00"
+      },
+      {
+        "title": "Toncoin (TON) Price Prediction 2025, 2026, 2027-2030",
+        "source": "Benzinga",
+        "url": "https://www.benzinga.com/money/toncoin-ton-price-prediction",
+        "published_ct": "2026-08-02T09:12:44-05:00"
+      },
+      {
+        "title": "Myro (MYRO) Price Prediction: 2025, 2026, 2030",
+        "source": "Benzinga",
+        "url": "https://www.benzinga.com/money/myro-price-prediction",
+        "published_ct": "2026-08-02T09:12:43-05:00"
+      },
+      {
+        "title": "Why flights are so expensive and will likely stay that way",
+        "source": "CNBC Business",
+        "url": "https://www.cnbc.com/2026/08/02/flights-are-getting-even-more-expensive-as-fuel-prices-rise.html",
+        "published_ct": "2026-08-02T07:00:01-05:00"
       }
     ]
   }
