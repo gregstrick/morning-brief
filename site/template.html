@@ -42,6 +42,7 @@ body {
 a { color: var(--brass); text-decoration: none; }
 a:hover, a:focus-visible { text-decoration: underline; }
 :focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+button { font-family: inherit; }
 .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
 .masthead { padding: 20px 16px 0; text-align: center; }
 .masthead h1 {
@@ -68,6 +69,39 @@ a:hover, a:focus-visible { text-decoration: underline; }
   letter-spacing: 0.03em;
 }
 .horizon-rule { height: 2px; background: var(--horizon); border: none; margin: 0; }
+
+.tabbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 2px;
+  background: var(--bg);
+  padding: 12px 0 8px;
+  border-bottom: 1px solid var(--line);
+}
+.tab-btn {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 0.64rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 8px 2px 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab-btn.active { color: var(--brass); border-bottom-color: var(--brass); }
+.tab-btn:hover { color: var(--text); }
+.tab-panel[hidden] { display: none; }
+
 .card {
   background: var(--card);
   border: 1px solid var(--line);
@@ -87,6 +121,7 @@ a:hover, a:focus-visible { text-decoration: underline; }
   padding-bottom: 4px;
   margin: 0 0 12px;
 }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .unavailable { color: var(--dim); font-style: italic; font-size: 0.9rem; }
 .synth-headline { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.35; }
 .synth-block { margin-bottom: 12px; }
@@ -117,14 +152,47 @@ a:hover, a:focus-visible { text-decoration: underline; }
 .earn-row, .mover-row { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; font-size: 0.85rem; }
 .earn-row .sym.notable { font-weight: 700; }
 .overflow-note { color: var(--dim); font-size: 0.78rem; margin-top: 6px; }
+
 .wl-group { margin-top: 14px; }
 .wl-group:first-child { margin-top: 0; }
-.wl-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+.wl-rows { list-style: none; margin: 0; padding: 0; }
+.wl-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; gap: 8px; }
+.wl-row[hidden] { display: none; }
 .wl-row:last-child { border-bottom: none; }
-.wl-row.dim-row { opacity: 0.55; }
-.wl-sym { font-weight: 600; }
+.wl-row.wl-hidden-item { opacity: 0.4; }
+.wl-row.dim-row .wl-right { opacity: 0.55; }
+.wl-sym { font-weight: 600; flex-shrink: 0; }
 .wl-note { color: var(--dim); font-size: 0.72rem; }
-.wl-right { text-align: right; }
+.wl-right { text-align: right; margin-left: auto; }
+.wl-controls { display: none; align-items: center; gap: 2px; flex-shrink: 0; }
+#watchlist-card.editing .wl-controls { display: flex; }
+.wl-ctrl-btn {
+  background: none; border: 1px solid var(--line); color: var(--dim); border-radius: 6px;
+  width: 24px; height: 24px; line-height: 1; cursor: pointer; font-size: 0.8rem;
+}
+.wl-ctrl-btn:hover { color: var(--text); border-color: var(--brass); }
+.customize-btn {
+  background: none; border: 1px solid var(--line); color: var(--dim); border-radius: 999px;
+  padding: 4px 12px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.customize-btn:hover { color: var(--brass); border-color: var(--brass); }
+
+.lookup-form { display: flex; gap: 8px; margin-bottom: 12px; }
+.lookup-input {
+  flex: 1; background: var(--bg); border: 1px solid var(--line); color: var(--text);
+  border-radius: 8px; padding: 8px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem;
+  text-transform: uppercase;
+}
+.lookup-input:focus-visible { border-color: var(--brass); }
+.lookup-btn {
+  background: var(--brass); color: var(--bg); border: none; border-radius: 8px;
+  padding: 8px 16px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer;
+}
+.lookup-btn:hover { opacity: 0.9; }
+.lookup-row { border-bottom: 1px solid var(--line); }
+.lookup-row:last-child { border-bottom: none; }
+
 .headline-row { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
 .headline-row:last-child { border-bottom: none; }
 .headline-meta { color: var(--dim); font-size: 0.75rem; margin-top: 2px; }
@@ -157,240 +225,283 @@ footer a { color: var(--dim); text-decoration: underline; }
 <hr class="horizon-rule">
 <div class="wrap">
 
-  <!-- Synthesis -->
-  <div class="card">
-    <div class="section-label">This Morning</div>
-    <p class="synth-headline">{{ synthesis.headline }}</p>
-    {% if synthesis.overnight %}
-    <div class="synth-block"><div class="label">Overnight</div><p>{{ synthesis.overnight }}</p></div>
-    {% endif %}
-    {% if synthesis.today_setup %}
-    <div class="synth-block"><div class="label">Today's Setup</div><p>{{ synthesis.today_setup }}</p></div>
-    {% endif %}
-    {% if synthesis.risk_watch %}
-    <div class="synth-block"><div class="label">Risk Watch</div><p>{{ synthesis.risk_watch }}</p></div>
-    {% endif %}
-    {% if synthesis.watchlist_note %}
-    <div class="synth-block"><div class="label">Watchlist Note</div><p>{{ synthesis.watchlist_note }}</p></div>
-    {% endif %}
+  <div class="tabbar" role="tablist">
+    <button class="tab-btn" data-tab="summary" role="tab" aria-selected="true">Summary</button>
+    <button class="tab-btn" data-tab="news" role="tab" aria-selected="false">News</button>
+    <button class="tab-btn" data-tab="movers" role="tab" aria-selected="false">Movers</button>
+    <button class="tab-btn" data-tab="watchlist" role="tab" aria-selected="false">Watchlist</button>
   </div>
 
-  <!-- Futures & overnight -->
-  <div class="card">
-    <div class="section-label">Futures &amp; Overnight</div>
-    {% if data.markets.futures or data.markets.volatility %}
-    <div class="tile-grid">
-      {% for t in (data.markets.futures or []) %}
-      <div class="tile">
-        <div class="name">{{ t.name }}</div>
-        <div class="price mono">{{ t.last | fmt_price }}</div>
-        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
-      </div>
-      {% endfor %}
-      {% for t in (data.markets.volatility or []) %}
-      <div class="tile">
-        <div class="name">{{ t.name }}</div>
-        <div class="price mono">{{ t.last | fmt_price }}</div>
-        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
-      </div>
-      {% endfor %}
+  <!-- ═══════════════════ SUMMARY ═══════════════════ -->
+  <div class="tab-panel" data-panel="summary">
+
+    <div class="card">
+      <div class="section-label">This Morning</div>
+      <p class="synth-headline">{{ synthesis.headline }}</p>
+      {% if synthesis.overnight %}
+      <div class="synth-block"><div class="label">Overnight</div><p>{{ synthesis.overnight }}</p></div>
+      {% endif %}
+      {% if synthesis.today_setup %}
+      <div class="synth-block"><div class="label">Today's Setup</div><p>{{ synthesis.today_setup }}</p></div>
+      {% endif %}
+      {% if synthesis.risk_watch %}
+      <div class="synth-block"><div class="label">Risk Watch</div><p>{{ synthesis.risk_watch }}</p></div>
+      {% endif %}
+      {% if synthesis.watchlist_note %}
+      <div class="synth-block"><div class="label">Watchlist Note</div><p>{{ synthesis.watchlist_note }}</p></div>
+      {% endif %}
     </div>
-    {% else %}
-    <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
 
-    {% if data.markets.international %}
-    <div class="subhead">Asia &amp; Europe</div>
-    <div class="tile-grid">
-      {% for t in data.markets.international %}
-      <div class="tile">
-        <div class="name">{{ t.name }}</div>
-        <div class="price mono">{{ t.last | fmt_price }}</div>
-        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
-
-  <!-- Rates & money -->
-  <div class="card">
-    <div class="section-label">Rates &amp; Money</div>
-    {% if data.markets.rates %}
-    <div class="tile-grid">
-      {% for r in data.markets.rates %}
-      <div class="tile">
-        <div class="name">{{ r.name }}</div>
-        <div class="price mono">{{ '%.2f' | format(r.yield_pct) if r.yield_pct is not none else '—' }}%</div>
-        <div class="pct mono {{ 'up' if r.change_bp and r.change_bp >= 0 else 'down' }}">{{ r.change_bp | fmt_bp }}</div>
-      </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
-
-    {% if data.markets.dollar_commodities_crypto %}
-    <div class="subhead">Dollar, Commodities &amp; Crypto</div>
-    <div class="tile-grid">
-      {% for t in data.markets.dollar_commodities_crypto %}
-      <div class="tile">
-        <div class="name">{{ t.name }}</div>
-        <div class="price mono">{{ t.last | fmt_price }}</div>
-        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
-
-  <!-- Today's calendar -->
-  <div class="card">
-    <div class="section-label">Today's Calendar</div>
-    {% if data.calendar.events %}
-      {% for e in data.calendar.events %}
-      <div class="cal-row">
-        <div class="cal-time mono">{{ e.time_ct }}</div>
-        <div class="cal-title">
-          {{ e.title }}
-          {% if e.is_fed %}<span class="bell" title="Fed speaker/release">&#128276;</span>{% endif %}
-          {% if e.impact == 'High' %}<span class="badge badge-high">HIGH</span>{% elif e.impact == 'Medium' %}<span class="badge badge-med">MED</span>{% endif %}
-        </div>
-        <div class="cal-meta">
-          {% if e.forecast %}fcst {{ e.forecast }}{% endif %}{% if e.forecast and e.previous %} · {% endif %}{% if e.previous %}prev {{ e.previous }}{% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    {% elif data.calendar %}
-      <p class="unavailable">No high-impact US releases today.</p>
-    {% else %}
-      <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
-  </div>
-
-  <!-- Earnings today -->
-  <div class="card">
-    <div class="section-label">Earnings Today</div>
-    {% if data.earnings and (data.earnings.before_open or data.earnings.after_close) %}
-    <div class="two-col">
-      <div>
-        <div class="col-label">Before Open</div>
-        {% if data.earnings.before_open.shown %}
-          {% for e in data.earnings.before_open.shown %}
-          <div class="earn-row"><span class="sym {{ 'notable' if e.notable }}">{{ e.symbol }}</span><span class="mono">{{ e.eps_est or '—' }}</span></div>
-          {% endfor %}
-          {% if data.earnings.before_open.overflow_count %}<div class="overflow-note">+{{ data.earnings.before_open.overflow_count }} more</div>{% endif %}
-        {% else %}
-          <p class="unavailable">None scheduled.</p>
-        {% endif %}
-      </div>
-      <div>
-        <div class="col-label">After Close</div>
-        {% if data.earnings.after_close.shown %}
-          {% for e in data.earnings.after_close.shown %}
-          <div class="earn-row"><span class="sym {{ 'notable' if e.notable }}">{{ e.symbol }}</span><span class="mono">{{ e.eps_est or '—' }}</span></div>
-          {% endfor %}
-          {% if data.earnings.after_close.overflow_count %}<div class="overflow-note">+{{ data.earnings.after_close.overflow_count }} more</div>{% endif %}
-        {% else %}
-          <p class="unavailable">None scheduled.</p>
-        {% endif %}
-      </div>
-    </div>
-    {% else %}
-    <p class="unavailable">Earnings calendar unavailable.</p>
-    {% endif %}
-  </div>
-
-  <!-- Pre-market movers -->
-  <div class="card">
-    <div class="section-label">Pre-Market Movers</div>
-    {% if data.markets.movers and (data.markets.movers.gainers or data.markets.movers.losers) %}
-    <div class="two-col">
-      <div>
-        <div class="col-label">Gainers</div>
-        {% for m in data.markets.movers.gainers %}
-        <div class="mover-row"><span class="sym">{{ m.symbol }}</span><span class="mono up">{{ m.premarket_price | fmt_price }} &nbsp; {{ m.premarket_pct | fmt_pct }}</span></div>
-        {% endfor %}
-      </div>
-      <div>
-        <div class="col-label">Losers</div>
-        {% for m in data.markets.movers.losers %}
-        <div class="mover-row"><span class="sym">{{ m.symbol }}</span><span class="mono down">{{ m.premarket_price | fmt_price }} &nbsp; {{ m.premarket_pct | fmt_pct }}</span></div>
-        {% endfor %}
-      </div>
-    </div>
-    {% else %}
-    <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
-  </div>
-
-  <!-- Watchlist -->
-  <div class="card">
-    <div class="section-label">Watchlist</div>
-    {% if data.markets.watchlist %}
-      {% for group, rows in data.markets.watchlist.items() %}
-      <div class="wl-group">
-        <div class="subhead">{{ group }}</div>
-        {% for r in rows %}
-        <div class="wl-row {{ 'dim-row' if r.session == 'prev' }}" title="{{ r.name }}">
-          <span class="wl-sym">{{ r.symbol }}</span>
-          <span class="wl-right mono">
-            {{ r.premarket_price | fmt_price }} &nbsp;
-            <span class="{{ 'up' if r.premarket_pct and r.premarket_pct >= 0 else 'down' }}">{{ r.premarket_pct | fmt_pct }}</span>
-            {% if r.session == 'prev' %}<span class="wl-note">no pre-mkt print</span>{% endif %}
-          </span>
-        </div>
-        {% endfor %}
-      </div>
-      {% endfor %}
-    {% else %}
-    <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
-  </div>
-
-  <!-- Headlines -->
-  <div class="card">
-    <div class="section-label">Headlines</div>
-    {% if data.news.headlines %}
-      {% for h in data.news.headlines %}
-      <div class="headline-row">
-        <a href="{{ h.url }}" target="_blank" rel="noopener">{{ h.title }}</a>
-        <div class="headline-meta">{{ h.source }} · {{ h.published_ct | age_ago }}</div>
-      </div>
-      {% endfor %}
-    {% else %}
-    <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
-  </div>
-
-  <!-- Yesterday -->
-  <div class="card">
-    <div class="section-label">Yesterday</div>
-    {% if data.markets.recap %}
-      <div class="recap-tiles">
-        {% for i in data.markets.recap.indices %}
+    <div class="card">
+      <div class="section-label">Futures &amp; Overnight</div>
+      {% if data.markets.futures or data.markets.volatility %}
+      <div class="tile-grid">
+        {% for t in (data.markets.futures or []) %}
         <div class="tile">
-          <div class="name">{{ i.name }}</div>
-          <div class="price mono">{{ i.last | fmt_price }}</div>
-          <div class="pct mono {{ 'up' if i.change_pct and i.change_pct >= 0 else 'down' }}">{{ i.change_pct | fmt_pct }}</div>
+          <div class="name">{{ t.name }}</div>
+          <div class="price mono">{{ t.last | fmt_price }}</div>
+          <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+        </div>
+        {% endfor %}
+        {% for t in (data.markets.volatility or []) %}
+        <div class="tile">
+          <div class="name">{{ t.name }}</div>
+          <div class="price mono">{{ t.last | fmt_price }}</div>
+          <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
         </div>
         {% endfor %}
       </div>
-      <div class="subhead">Leaders</div>
-      <div class="chip-row">
-        {% for s in data.markets.recap.sector_leaders %}
-        <span class="chip up">{{ s.name }} {{ s.change_pct | fmt_pct }}</span>
+      {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+
+      {% if data.markets.international %}
+      <div class="subhead">Asia &amp; Europe</div>
+      <div class="tile-grid">
+        {% for t in data.markets.international %}
+        <div class="tile">
+          <div class="name">{{ t.name }}</div>
+          <div class="price mono">{{ t.last | fmt_price }}</div>
+          <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+        </div>
         {% endfor %}
       </div>
-      <div class="subhead">Laggards</div>
-      <div class="chip-row">
-        {% for s in data.markets.recap.sector_laggards %}
-        <span class="chip down">{{ s.name }} {{ s.change_pct | fmt_pct }}</span>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="section-label">Rates &amp; Money</div>
+      {% if data.markets.rates %}
+      <div class="tile-grid">
+        {% for r in data.markets.rates %}
+        <div class="tile">
+          <div class="name">{{ r.name }}</div>
+          <div class="price mono">{{ '%.2f' | format(r.yield_pct) if r.yield_pct is not none else '—' }}%</div>
+          <div class="pct mono {{ 'up' if r.change_bp and r.change_bp >= 0 else 'down' }}">{{ r.change_bp | fmt_bp }}</div>
+        </div>
         {% endfor %}
       </div>
-    {% else %}
-    <p class="unavailable">Data unavailable this morning.</p>
-    {% endif %}
+      {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+
+      {% if data.markets.dollar_commodities_crypto %}
+      <div class="subhead">Dollar, Commodities &amp; Crypto</div>
+      <div class="tile-grid">
+        {% for t in data.markets.dollar_commodities_crypto %}
+        <div class="tile">
+          <div class="name">{{ t.name }}</div>
+          <div class="price mono">{{ t.last | fmt_price }}</div>
+          <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="section-label">Yesterday</div>
+      {% if data.markets.recap %}
+        <div class="recap-tiles">
+          {% for i in data.markets.recap.indices %}
+          <div class="tile">
+            <div class="name">{{ i.name }}</div>
+            <div class="price mono">{{ i.last | fmt_price }}</div>
+            <div class="pct mono {{ 'up' if i.change_pct and i.change_pct >= 0 else 'down' }}">{{ i.change_pct | fmt_pct }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="subhead">Leaders</div>
+        <div class="chip-row">
+          {% for s in data.markets.recap.sector_leaders %}
+          <span class="chip up">{{ s.name }} {{ s.change_pct | fmt_pct }}</span>
+          {% endfor %}
+        </div>
+        <div class="subhead">Laggards</div>
+        <div class="chip-row">
+          {% for s in data.markets.recap.sector_laggards %}
+          <span class="chip down">{{ s.name }} {{ s.change_pct | fmt_pct }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ NEWS & CALENDAR ═══════════════════ -->
+  <div class="tab-panel" data-panel="news" hidden>
+
+    <div class="card">
+      <div class="section-label">Today's Calendar</div>
+      {% if data.calendar.events %}
+        {% for e in data.calendar.events %}
+        <div class="cal-row">
+          <div class="cal-time mono">{{ e.time_ct }}</div>
+          <div class="cal-title">
+            {{ e.title }}
+            {% if e.is_fed %}<span class="bell" title="Fed speaker/release">&#128276;</span>{% endif %}
+            {% if e.impact == 'High' %}<span class="badge badge-high">HIGH</span>{% elif e.impact == 'Medium' %}<span class="badge badge-med">MED</span>{% endif %}
+          </div>
+          <div class="cal-meta">
+            {% if e.forecast %}fcst {{ e.forecast }}{% endif %}{% if e.forecast and e.previous %} · {% endif %}{% if e.previous %}prev {{ e.previous }}{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      {% elif data.calendar %}
+        <p class="unavailable">No high-impact US releases today.</p>
+      {% else %}
+        <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="section-label">Earnings Today</div>
+      {% if data.earnings and (data.earnings.before_open or data.earnings.after_close) %}
+      <div class="two-col">
+        <div>
+          <div class="col-label">Before Open</div>
+          {% if data.earnings.before_open.shown %}
+            {% for e in data.earnings.before_open.shown %}
+            <div class="earn-row"><span class="sym {{ 'notable' if e.notable }}">{{ e.symbol }}</span><span class="mono">{{ e.eps_est or '—' }}</span></div>
+            {% endfor %}
+            {% if data.earnings.before_open.overflow_count %}<div class="overflow-note">+{{ data.earnings.before_open.overflow_count }} more</div>{% endif %}
+          {% else %}
+            <p class="unavailable">None scheduled.</p>
+          {% endif %}
+        </div>
+        <div>
+          <div class="col-label">After Close</div>
+          {% if data.earnings.after_close.shown %}
+            {% for e in data.earnings.after_close.shown %}
+            <div class="earn-row"><span class="sym {{ 'notable' if e.notable }}">{{ e.symbol }}</span><span class="mono">{{ e.eps_est or '—' }}</span></div>
+            {% endfor %}
+            {% if data.earnings.after_close.overflow_count %}<div class="overflow-note">+{{ data.earnings.after_close.overflow_count }} more</div>{% endif %}
+          {% else %}
+            <p class="unavailable">None scheduled.</p>
+          {% endif %}
+        </div>
+      </div>
+      {% else %}
+      <p class="unavailable">Earnings calendar unavailable.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="section-label">Headlines</div>
+      {% if data.news.headlines %}
+        {% for h in data.news.headlines %}
+        <div class="headline-row">
+          <a href="{{ h.url }}" target="_blank" rel="noopener">{{ h.title }}</a>
+          <div class="headline-meta">{{ h.source }} · {{ h.published_ct | age_ago }}</div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ MOVERS ═══════════════════ -->
+  <div class="tab-panel" data-panel="movers" hidden>
+
+    <div class="card">
+      <div class="section-label">Pre-Market Movers</div>
+      {% if data.markets.movers and (data.markets.movers.gainers or data.markets.movers.losers) %}
+      <div class="two-col">
+        <div>
+          <div class="col-label">Gainers</div>
+          {% for m in data.markets.movers.gainers %}
+          <div class="mover-row"><span class="sym">{{ m.symbol }}</span><span class="mono up">{{ m.premarket_price | fmt_price }} &nbsp; {{ m.premarket_pct | fmt_pct }}</span></div>
+          {% endfor %}
+        </div>
+        <div>
+          <div class="col-label">Losers</div>
+          {% for m in data.markets.movers.losers %}
+          <div class="mover-row"><span class="sym">{{ m.symbol }}</span><span class="mono down">{{ m.premarket_price | fmt_price }} &nbsp; {{ m.premarket_pct | fmt_pct }}</span></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ WATCHLIST ═══════════════════ -->
+  <div class="tab-panel" data-panel="watchlist" hidden>
+
+    <div class="card" id="watchlist-card">
+      <div class="card-head">
+        <div class="section-label">Watchlist</div>
+        <button type="button" class="customize-btn" id="wl-customize-toggle">Customize</button>
+      </div>
+      {% if data.markets.watchlist %}
+        {% for group, rows in data.markets.watchlist.items() %}
+        <div class="wl-group" data-group="{{ group }}">
+          <div class="subhead">{{ group }}</div>
+          <ul class="wl-rows">
+            {% for r in rows %}
+            <li class="wl-row {{ 'dim-row' if r.session == 'prev' }}" data-symbol="{{ r.symbol }}" title="{{ r.name }}">
+              <span class="wl-controls">
+                <button type="button" class="wl-ctrl-btn wl-up" title="Move up" aria-label="Move {{ r.symbol }} up">&#8593;</button>
+                <button type="button" class="wl-ctrl-btn wl-down" title="Move down" aria-label="Move {{ r.symbol }} down">&#8595;</button>
+                <button type="button" class="wl-ctrl-btn wl-eye" title="Show/hide" aria-label="Toggle {{ r.symbol }} visibility">&#128065;</button>
+              </span>
+              <span class="wl-sym">{{ r.symbol }}</span>
+              <span class="wl-right mono">
+                {{ r.premarket_price | fmt_price }} &nbsp;
+                <span class="{{ 'up' if r.premarket_pct and r.premarket_pct >= 0 else 'down' }}">{{ r.premarket_pct | fmt_pct }}</span>
+                {% if r.session == 'prev' %}<span class="wl-note">no pre-mkt print</span>{% endif %}
+              </span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="section-label">Quick Lookup</div>
+      {% if cfg.quote_proxy_url %}
+        <form id="lookup-form" data-proxy-url="{{ cfg.quote_proxy_url }}">
+          <div class="lookup-form">
+            <input type="text" id="lookup-input" class="lookup-input mono" placeholder="TICKER" maxlength="12" autocapitalize="characters" autocomplete="off">
+            <button type="submit" class="lookup-btn">Look Up</button>
+          </div>
+        </form>
+        <div id="lookup-results"></div>
+      {% else %}
+        <p class="unavailable">Live ticker lookup isn't configured yet — see the README for the one-time setup.</p>
+      {% endif %}
+    </div>
+
   </div>
 
   <footer>
@@ -431,6 +542,180 @@ footer a { color: var(--dim); text-decoration: underline; }
 
   render();
   setInterval(render, reduced ? 60000 : 1000);
+})();
+
+// ---- Tabs ----
+(function () {
+  var tabButtons = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+  var STORAGE_KEY = 'mb-active-tab';
+
+  function activate(tab) {
+    tabButtons.forEach(function (btn) {
+      var isActive = btn.dataset.tab === tab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    panels.forEach(function (panel) {
+      panel.hidden = panel.dataset.panel !== tab;
+    });
+    try { localStorage.setItem(STORAGE_KEY, tab); } catch (e) {}
+  }
+
+  tabButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () { activate(btn.dataset.tab); });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+  var validTabs = Array.prototype.map.call(tabButtons, function (b) { return b.dataset.tab; });
+  activate(saved && validTabs.indexOf(saved) !== -1 ? saved : 'summary');
+})();
+
+// ---- Watchlist customization (show/hide + reorder, saved in this browser) ----
+(function () {
+  var STORAGE_KEY = 'mb-watchlist-prefs';
+  var card = document.getElementById('watchlist-card');
+  if (!card) return;
+  var groups = card.querySelectorAll('.wl-group');
+  var customizeToggle = document.getElementById('wl-customize-toggle');
+
+  function loadPrefs() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { hidden: [], order: {} }; }
+    catch (e) { return { hidden: [], order: {} }; }
+  }
+  function savePrefs(prefs) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs)); } catch (e) {}
+  }
+
+  var prefs = loadPrefs();
+
+  function applyOrder() {
+    groups.forEach(function (group) {
+      var order = prefs.order[group.dataset.group];
+      if (!order) return;
+      var list = group.querySelector('.wl-rows');
+      var rows = Array.prototype.slice.call(list.children);
+      rows.sort(function (a, b) {
+        var ai = order.indexOf(a.dataset.symbol); if (ai === -1) ai = 999;
+        var bi = order.indexOf(b.dataset.symbol); if (bi === -1) bi = 999;
+        return ai - bi;
+      });
+      rows.forEach(function (r) { list.appendChild(r); });
+    });
+  }
+
+  function applyVisibility() {
+    var editing = card.classList.contains('editing');
+    card.querySelectorAll('.wl-row').forEach(function (row) {
+      var hidden = prefs.hidden.indexOf(row.dataset.symbol) !== -1;
+      row.hidden = hidden && !editing;
+      row.classList.toggle('wl-hidden-item', hidden);
+    });
+  }
+
+  card.addEventListener('click', function (e) {
+    var eyeBtn = e.target.closest('.wl-eye');
+    var upBtn = e.target.closest('.wl-up');
+    var downBtn = e.target.closest('.wl-down');
+    if (eyeBtn) {
+      var symbol = eyeBtn.closest('.wl-row').dataset.symbol;
+      var idx = prefs.hidden.indexOf(symbol);
+      if (idx === -1) prefs.hidden.push(symbol); else prefs.hidden.splice(idx, 1);
+      savePrefs(prefs);
+      applyVisibility();
+    } else if (upBtn || downBtn) {
+      var row = (upBtn || downBtn).closest('.wl-row');
+      var group = row.closest('.wl-group');
+      var list = group.querySelector('.wl-rows');
+      var rows = Array.prototype.slice.call(list.children);
+      var idx2 = rows.indexOf(row);
+      var target = idx2 + (upBtn ? -1 : 1);
+      if (target < 0 || target >= rows.length) return;
+      if (upBtn) list.insertBefore(row, rows[target]);
+      else list.insertBefore(rows[target], row);
+      prefs.order[group.dataset.group] = Array.prototype.slice.call(list.children).map(function (r) { return r.dataset.symbol; });
+      savePrefs(prefs);
+    }
+  });
+
+  if (customizeToggle) {
+    customizeToggle.addEventListener('click', function () {
+      var editing = card.classList.toggle('editing');
+      customizeToggle.textContent = editing ? 'Done' : 'Customize';
+      applyVisibility();
+    });
+  }
+
+  applyOrder();
+  applyVisibility();
+})();
+
+// ---- Quick lookup (live quotes via the optional Cloudflare Worker proxy) ----
+(function () {
+  var form = document.getElementById('lookup-form');
+  if (!form) return;
+  var input = document.getElementById('lookup-input');
+  var resultsEl = document.getElementById('lookup-results');
+  var proxyUrl = form.dataset.proxyUrl;
+  var STORAGE_KEY = 'mb-lookup-history';
+  var MAX_HISTORY = 8;
+
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveHistory(list) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, MAX_HISTORY))); } catch (e) {}
+  }
+
+  function renderQuote(q) {
+    var div = document.createElement('div');
+    div.className = 'mover-row lookup-row';
+    if (q.error) {
+      div.innerHTML = '<span class="sym">' + q.symbol + '</span><span class="mono unavailable">' + q.error + '</span>';
+    } else {
+      var up = q.changePct != null && q.changePct >= 0;
+      var cls = up ? 'up' : 'down';
+      var pct = q.changePct != null ? (up ? '+' : '') + q.changePct.toFixed(2) + '%' : '—';
+      var price = q.price != null ? q.price.toFixed(2) : '—';
+      div.innerHTML = '<span class="sym">' + q.symbol + '</span><span class="mono ' + cls + '">' + price + ' &nbsp; ' + pct + '</span>';
+    }
+    return div;
+  }
+
+  function lookup(symbol) {
+    return fetch(proxyUrl + '?symbol=' + encodeURIComponent(symbol))
+      .then(function (res) { return res.json(); })
+      .then(function (data) { return (data.quotes && data.quotes[0]) || { symbol: symbol, error: 'no data' }; })
+      .catch(function () { return { symbol: symbol, error: 'lookup failed' }; });
+  }
+
+  function refreshAll() {
+    var history = loadHistory();
+    resultsEl.innerHTML = '';
+    if (history.length === 0) {
+      resultsEl.innerHTML = '<p class="unavailable">No lookups yet — try a ticker above.</p>';
+      return;
+    }
+    history.forEach(function (symbol) {
+      var placeholder = renderQuote({ symbol: symbol, error: 'loading…' });
+      resultsEl.appendChild(placeholder);
+      lookup(symbol).then(function (q) { placeholder.replaceWith(renderQuote(q)); });
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var symbol = (input.value || '').trim().toUpperCase();
+    if (!symbol) return;
+    var history = loadHistory().filter(function (s) { return s !== symbol; });
+    history.unshift(symbol);
+    saveHistory(history);
+    input.value = '';
+    refreshAll();
+  });
+
+  refreshAll();
 })();
 
 if ('serviceWorker' in navigator) {

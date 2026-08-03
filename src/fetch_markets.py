@@ -204,14 +204,18 @@ def fetch_universe_quotes(cfg: dict, extra_symbols=None) -> list:
     return rows
 
 
+MOVERS_SHOWN = 8
+
+
 def fetch_movers(cfg: dict, extra_symbols=None) -> dict:
-    """Top 5 gainers / losers among the universe (drops symbols with no genuine pre-market print)."""
+    """Top gainers / losers among the universe (drops symbols with no genuine pre-market print)."""
     quotes = fetch_universe_quotes(cfg, extra_symbols=extra_symbols)
     genuine = [q for q in quotes if q.get("session") == "pre" and q.get("premarket_pct") is not None]
     ranked = sorted(genuine, key=lambda q: q["premarket_pct"], reverse=True)
+    n = MOVERS_SHOWN
     return {
-        "gainers": ranked[:5],
-        "losers": list(reversed(ranked[-5:])) if len(ranked) >= 5 else list(reversed(ranked)),
+        "gainers": ranked[:n],
+        "losers": list(reversed(ranked[-n:])) if len(ranked) >= n else list(reversed(ranked)),
     }
 
 

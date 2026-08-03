@@ -3,6 +3,11 @@ site_title: "Morning Brief"
 model: claude-sonnet-5          # synthesis model; claude-haiku-4-5 is the budget swap
 max_headlines: 12
 headline_window_hours: 18       # ignore RSS items older than this
+# Optional: URL of a Cloudflare Worker (or similar) that proxies Yahoo Finance
+# quotes with a CORS header, enabling the Watchlist tab's live ticker lookup
+# box. See cloudflare-worker/quote-proxy.js and the README for setup. Leave
+# blank to hide that feature -- everything else works fine without it.
+quote_proxy_url: ""
 
 # ── Watchlist ─────────────────────────────────────────────────────────
 # Grouped; groups render as labeled sub-sections in the Watchlist card.

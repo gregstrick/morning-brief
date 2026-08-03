@@ -5,6 +5,17 @@ Central — futures, overnight action, rates, today's economic calendar and Fed 
 pre-market movers, a personal watchlist, headlines, and an AI-written synthesis up top. Built by a Python
 pipeline on a GitHub Actions schedule, hosted free on GitHub Pages.
 
+The page is organized into four tabs (the masthead/countdown and footer are always visible above/below
+them):
+
+1. **Summary** — the AI synthesis, futures & overnight, rates & money, yesterday's recap. Everything you
+   need in 90 seconds.
+2. **News & Calendar** — today's economic releases and Fed speakers, today's earnings reporters, headlines.
+3. **Movers** — today's biggest pre-market gainers/losers (outliers) across the scan universe.
+4. **Watchlist** — your configured tickers, with a **Customize** toggle to show/hide and reorder them
+   (saved in your browser), plus an optional **Quick Lookup** box for live quotes on any ticker — see
+   [Live ticker lookup](#live-ticker-lookup-optional) below.
+
 Full product spec: [`MorningBrief_Build_Spec.md`](MorningBrief_Build_Spec.md).
 
 ## One-time setup
@@ -50,9 +61,33 @@ iteration — hard-reload or bump the `CACHE` constant in `site/sw.js` if a stal
 | Economic calendar | ForexFactory weekly feed, URL in `config.yml` (`economic_calendar_url`) | If it ever 404s, check the ForexFactory calendar-widget docs for the current feed URL |
 | Earnings | Nasdaq calendar API, Finnhub fallback | Nasdaq occasionally blocks datacenter IPs (GitHub runners); Finnhub needs `FINNHUB_API_KEY` |
 | Headlines | RSS feeds listed in `config.yml` (`rss_feeds`) | CNBC, MarketWatch, Yahoo Finance |
+| Watchlist tab's Quick Lookup | Your own Cloudflare Worker (optional) → Yahoo Finance | See below; blank `quote_proxy_url` just hides the box |
 
 A card showing "Data unavailable this morning" for more than a few days in a row usually means a feed URL
 moved — check the corresponding row above first.
+
+## Live ticker lookup (optional)
+
+The Watchlist tab's **Quick Lookup** box fetches a live quote for any ticker you type, straight from your
+browser. Yahoo Finance doesn't allow direct cross-origin requests from a browser (no CORS header — verified,
+not assumed), so this needs one small piece of infrastructure between your phone/browser and Yahoo: a free
+[Cloudflare Worker](https://workers.cloudflare.com/) that forwards the request and adds the header back.
+This is the only non-static piece of the whole project; skip this section entirely and the rest of the app
+works exactly the same, just without the Quick Lookup box.
+
+1. Sign up for a free Cloudflare account (no credit card required for the Workers free tier) and go to
+   **Workers & Pages → Create → Create Worker**.
+2. Replace the default script with the contents of [`cloudflare-worker/quote-proxy.js`](cloudflare-worker/quote-proxy.js)
+   and click **Deploy**.
+3. In that file, set `ALLOWED_ORIGIN` to your Pages URL (`https://<username>.github.io`) — this is what
+   restricts who can use your Worker — then redeploy.
+4. Copy the Worker's URL (looks like `https://quote-proxy.<your-subdomain>.workers.dev`) into
+   `config/config.yml`'s `quote_proxy_url`, commit, and the Quick Lookup box appears on the next build.
+
+The Worker only proxies `v8/finance/chart` (plain price + previous close, no crumb/cookie auth needed —
+it's the same endpoint the daily pipeline already uses successfully), caps each request at 5 symbols, and
+sets `Cache-Control: no-store`. It costs nothing on Cloudflare's free tier (100,000 requests/day) for
+single-user use.
 
 ## Ops notes
 

@@ -1,35 +1,35 @@
 {
-  "fetched_at": "2026-08-02T20:26:36.790515-05:00",
+  "fetched_at": "2026-08-02T21:31:46.576694-05:00",
   "markets": {
-    "fetched_at": "2026-08-02T20:26:36.790529-05:00",
+    "fetched_at": "2026-08-02T21:31:46.576713-05:00",
     "futures": [
       {
         "symbol": "ES=F",
         "name": "S&P 500",
-        "last": 7551.0,
+        "last": 7561.0,
         "prev_close": 7519.25,
-        "change_pct": 0.4222
+        "change_pct": 0.5552
       },
       {
         "symbol": "NQ=F",
         "name": "Nasdaq 100",
-        "last": 28585.0,
+        "last": 28672.5,
         "prev_close": 28404.25,
-        "change_pct": 0.6363
+        "change_pct": 0.9444
       },
       {
         "symbol": "YM=F",
         "name": "Dow",
-        "last": 52827.0,
+        "last": 52886.0,
         "prev_close": 52635.0,
-        "change_pct": 0.3648
+        "change_pct": 0.4769
       },
       {
         "symbol": "RTY=F",
         "name": "Russell 2000",
-        "last": 2949.300048828125,
+        "last": 2956.10009765625,
         "prev_close": 2938.0,
-        "change_pct": 0.3846
+        "change_pct": 0.6161
       }
     ],
     "volatility": [
@@ -45,23 +45,23 @@
       {
         "symbol": "^N225",
         "name": "Nikkei 225 (closed)",
-        "last": 63062.91015625,
+        "last": 63384.87890625,
         "prev_close": 64299.390625,
-        "change_pct": -1.923
+        "change_pct": -1.4223
       },
       {
         "symbol": "^HSI",
         "name": "Hang Seng (closed)",
-        "last": 25884.4296875,
-        "prev_close": 25858.880859375,
-        "change_pct": 0.0988
+        "last": 25825.66015625,
+        "prev_close": 25884.4296875,
+        "change_pct": -0.227
       },
       {
         "symbol": "000001.SS",
         "name": "Shanghai (closed)",
-        "last": 3832.261962890625,
-        "prev_close": 3798.709228515625,
-        "change_pct": 0.8833
+        "last": 3806.44384765625,
+        "prev_close": 3835.30029296875,
+        "change_pct": -0.7524
       },
       {
         "symbol": "^FTSE",
@@ -119,16 +119,16 @@
       {
         "symbol": "DX-Y.NYB",
         "name": "Dollar index",
-        "last": 99.66699981689453,
+        "last": 99.71600341796875,
         "prev_close": 99.8030014038086,
-        "change_pct": -0.1363
+        "change_pct": -0.0872
       },
       {
         "symbol": "CL=F",
         "name": "WTI crude",
-        "last": 80.62999725341797,
+        "last": 80.25,
         "prev_close": 84.66999816894531,
-        "change_pct": -4.7715
+        "change_pct": -5.2203
       },
       {
         "symbol": "BZ=F",
@@ -140,23 +140,23 @@
       {
         "symbol": "GC=F",
         "name": "Gold",
-        "last": 4103.2001953125,
+        "last": 4114.7001953125,
         "prev_close": 4107.0,
-        "change_pct": -0.0925
+        "change_pct": 0.1875
       },
       {
         "symbol": "BTC-USD",
         "name": "Bitcoin",
-        "last": 63180.01171875,
-        "prev_close": 63413.30078125,
-        "change_pct": -0.3679
+        "last": 63055.0,
+        "prev_close": 63499.48828125,
+        "change_pct": -0.7
       },
       {
         "symbol": "ETH-USD",
         "name": "Ether",
-        "last": 1869.5,
-        "prev_close": 1881.8299560546875,
-        "change_pct": -0.6552
+        "last": 1863.75,
+        "prev_close": 1883.3499755859375,
+        "change_pct": -1.0407
       }
     ],
     "recap": {
@@ -417,6 +417,27 @@
           "premarket_price": 553.9,
           "premarket_pct": 2.7587,
           "session": "pre"
+        },
+        {
+          "symbol": "MSFT",
+          "prev_close": 451.1,
+          "premarket_price": 461.85,
+          "premarket_pct": 2.3831,
+          "session": "pre"
+        },
+        {
+          "symbol": "NVDA",
+          "prev_close": 195.04,
+          "premarket_price": 198.9495,
+          "premarket_pct": 2.0045,
+          "session": "pre"
+        },
+        {
+          "symbol": "SMCI",
+          "prev_close": 27.73,
+          "premarket_price": 28.1629,
+          "premarket_pct": 1.5611,
+          "session": "pre"
         }
       ],
       "losers": [
@@ -454,12 +475,33 @@
           "premarket_price": 116.8999,
           "premarket_pct": -4.4935,
           "session": "pre"
+        },
+        {
+          "symbol": "QCOM",
+          "prev_close": 151.6,
+          "premarket_price": 147.28,
+          "premarket_pct": -2.8496,
+          "session": "pre"
+        },
+        {
+          "symbol": "ARM",
+          "prev_close": 241.54001,
+          "premarket_price": 234.71,
+          "premarket_pct": -2.8277,
+          "session": "pre"
+        },
+        {
+          "symbol": "AMD",
+          "prev_close": 485.38998,
+          "premarket_price": 472.1188,
+          "premarket_pct": -2.7341,
+          "session": "pre"
         }
       ]
     }
   },
   "calendar": {
-    "fetched_at": "2026-08-02T20:27:47.054323-05:00",
+    "fetched_at": "2026-08-02T21:32:36.776071-05:00",
     "events": []
   },
   "earnings": {
@@ -471,12 +513,18 @@
       "shown": [],
       "overflow_count": 0
     },
-    "fetched_at": "2026-08-02T20:26:36.790462-05:00",
+    "fetched_at": "2026-08-02T21:31:46.576590-05:00",
     "source": null
   },
   "news": {
-    "fetched_at": "2026-08-02T20:27:48.366834-05:00",
+    "fetched_at": "2026-08-02T21:32:38.561518-05:00",
     "headlines": [
+      {
+        "title": "Trump says Iran talks to resume Monday after calling off planned strikes",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/03/trump-iran-us-negotiations-peace-proposals-.html",
+        "published_ct": "2026-08-02T21:23:21-05:00"
+      },
       {
         "title": "U.S., Japan confirm coordinated yen intervention, signal readiness for more",
         "source": "CNBC Top News",
@@ -542,12 +590,6 @@
         "source": "MarketWatch Top",
         "url": "https://www.marketwatch.com/story/my-girlfriend-is-62-can-she-claim-her-late-husbands-full-social-security-benefit-or-does-she-have-to-wait-315c0fa1?mod=mw_rss_topstories",
         "published_ct": "2026-08-02T11:00:00-05:00"
-      },
-      {
-        "title": "'Spider-Man: Brand New Day' chases 'Avengers: Endgame' opening record with $355 million domestic debut",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/02/spider-man-brand-new-day-box-office-355-million-domestic-opening.html",
-        "published_ct": "2026-08-02T10:54:05-05:00"
       }
     ]
   }
