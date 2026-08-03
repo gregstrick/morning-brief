@@ -1,0 +1,6 @@
+site/dist/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.claude/scheduled_tasks.lock

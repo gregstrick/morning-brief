@@ -1,0 +1,155 @@
+timezone: America/Chicago
+site_title: "Morning Brief"
+model: claude-sonnet-5          # synthesis model; claude-haiku-4-5 is the budget swap
+max_headlines: 12
+headline_window_hours: 18       # ignore RSS items older than this
+
+# ── Watchlist ─────────────────────────────────────────────────────────
+# Grouped; groups render as labeled sub-sections in the Watchlist card.
+# Comments explain the "why" — keep them, they document the strategy.
+watchlist:
+  Market:
+    SPY:  "S&P 500"
+    QQQ:  "Nasdaq 100"
+    IWM:  "Russell 2000 — small caps"
+    DIA:  "Dow"
+  Business Intel:
+    AAPL: "Apple — product cycle news moves used iPad/MacBook prices"
+    EBAY: "the marketplace itself — fees, buyer traffic, GMV commentary"
+    MU:   "Micron — IS the DDR4/DRAM shortage story; earnings = RAM price signal"
+    WDC:  "Western Digital — drives/NAND"
+    SNDK: "SanDisk (NAND pure-play, spun off WDC) — SSD cost signal"
+    DELL: "Dell — Latitude/Precision supply side"
+    HPQ:  "HP — ProBook/EliteBook supply side"
+    BBY:  "Best Buy — consumer electronics demand read"
+  Income Portfolio:
+    SCHD: "dividend core"
+    JEPI: "covered-call income"
+    SPYI: "S&P income"
+    CHPY: "weekly income leg"
+    QLDY: "weekly income leg"
+
+# ── Pre-market movers universe ───────────────────────────────────────
+# Liquid names scanned for the movers card, merged with the watchlist and
+# today's earnings reporters, ranked by |pre-market %|.
+universe:
+  - AAPL
+  - MSFT
+  - NVDA
+  - AMZN
+  - GOOGL
+  - META
+  - TSLA
+  - AVGO
+  - AMD
+  - INTC
+  - MU
+  - QCOM
+  - TXN
+  - ADBE
+  - CRM
+  - ORCL
+  - NFLX
+  - DIS
+  - PLTR
+  - ARM
+  - SMCI
+  - COIN
+  - HOOD
+  - UBER
+  - ABNB
+  - SHOP
+  - PYPL
+  - XYZ    # Block (formerly SQ)
+  - JPM
+  - BAC
+  - GS
+  - MS
+  - WFC
+  - XOM
+  - CVX
+  - OXY
+  - CAT
+  - BA
+  - DE
+  - GE
+  - F
+  - GM
+  - WMT
+  - COST
+  - TGT
+  - HD
+  - LOW
+  - NKE
+  - SBUX
+  - MCD
+  - PFE
+  - JNJ
+  - MRK
+  - LLY
+  - UNH
+
+# ── Symbols for the market snapshot ──────────────────────────────────
+futures:
+  ES=F:  "S&P 500"
+  NQ=F:  "Nasdaq 100"
+  YM=F:  "Dow"
+  RTY=F: "Russell 2000"
+volatility:
+  ^VIX: "VIX"
+international:
+  ^N225:     "Nikkei 225 (closed)"
+  ^HSI:      "Hang Seng (closed)"
+  000001.SS: "Shanghai (closed)"
+  ^FTSE:     "FTSE 100 (live)"
+  ^GDAXI:    "DAX (live)"
+  ^STOXX50E: "Euro Stoxx 50 (live)"
+rates:                      # CBOE yield indexes; verified live that yfinance now reports these as
+                             # plain percentages (e.g. ^TNX 4.75 = 4.75%), not the historical yield-x10
+                             # scaling -- check src/fetch_markets.py:fetch_rates() if this ever drifts
+  ^IRX: "13-week"
+  ^FVX: "5-year"
+  ^TNX: "10-year"
+  ^TYX: "30-year"
+dollar_commodities_crypto:
+  DX-Y.NYB: "Dollar index"
+  CL=F:     "WTI crude"
+  BZ=F:     "Brent"
+  GC=F:     "Gold"
+  BTC-USD:  "Bitcoin"
+  ETH-USD:  "Ether"
+indices_recap:              # yesterday's closes
+  ^GSPC: "S&P 500"
+  ^IXIC: "Nasdaq"
+  ^DJI:  "Dow"
+  ^RUT:  "Russell 2000"
+sectors:                    # yesterday's leaders/laggards
+  XLK: "Tech"
+  XLF: "Financials"
+  XLE: "Energy"
+  XLV: "Health care"
+  XLY: "Consumer disc."
+  XLP: "Staples"
+  XLI: "Industrials"
+  XLB: "Materials"
+  XLU: "Utilities"
+  XLRE: "Real estate"
+  XLC: "Comm. services"
+
+# ── Feeds ────────────────────────────────────────────────────────────
+economic_calendar_url: "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
+rss_feeds:
+  - name: "CNBC Top News"
+    url: "https://www.cnbc.com/id/100003114/device/rss/rss.html"
+  - name: "CNBC Business"
+    url: "https://www.cnbc.com/id/10001147/device/rss/rss.html"
+  - name: "CNBC Economy"
+    url: "https://www.cnbc.com/id/20910258/device/rss/rss.html"
+  - name: "CNBC Earnings"
+    url: "https://www.cnbc.com/id/15839135/device/rss/rss.html"
+  - name: "MarketWatch Top"
+    url: "https://feeds.content.dowjones.io/public/rss/mw_topstories"
+  - name: "MarketWatch Pulse"
+    url: "https://feeds.content.dowjones.io/public/rss/mw_marketpulse"
+  - name: "Yahoo Finance"
+    url: "https://finance.yahoo.com/news/rssindex"

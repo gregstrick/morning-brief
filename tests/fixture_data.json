@@ -1,0 +1,554 @@
+{
+  "fetched_at": "2026-08-02T20:26:36.790515-05:00",
+  "markets": {
+    "fetched_at": "2026-08-02T20:26:36.790529-05:00",
+    "futures": [
+      {
+        "symbol": "ES=F",
+        "name": "S&P 500",
+        "last": 7551.0,
+        "prev_close": 7519.25,
+        "change_pct": 0.4222
+      },
+      {
+        "symbol": "NQ=F",
+        "name": "Nasdaq 100",
+        "last": 28585.0,
+        "prev_close": 28404.25,
+        "change_pct": 0.6363
+      },
+      {
+        "symbol": "YM=F",
+        "name": "Dow",
+        "last": 52827.0,
+        "prev_close": 52635.0,
+        "change_pct": 0.3648
+      },
+      {
+        "symbol": "RTY=F",
+        "name": "Russell 2000",
+        "last": 2949.300048828125,
+        "prev_close": 2938.0,
+        "change_pct": 0.3846
+      }
+    ],
+    "volatility": [
+      {
+        "symbol": "^VIX",
+        "name": "VIX",
+        "last": 15.989999771118164,
+        "prev_close": 17.079999923706055,
+        "change_pct": -6.3817
+      }
+    ],
+    "international": [
+      {
+        "symbol": "^N225",
+        "name": "Nikkei 225 (closed)",
+        "last": 63062.91015625,
+        "prev_close": 64299.390625,
+        "change_pct": -1.923
+      },
+      {
+        "symbol": "^HSI",
+        "name": "Hang Seng (closed)",
+        "last": 25884.4296875,
+        "prev_close": 25858.880859375,
+        "change_pct": 0.0988
+      },
+      {
+        "symbol": "000001.SS",
+        "name": "Shanghai (closed)",
+        "last": 3832.261962890625,
+        "prev_close": 3798.709228515625,
+        "change_pct": 0.8833
+      },
+      {
+        "symbol": "^FTSE",
+        "name": "FTSE 100 (live)",
+        "last": 10868.099609375,
+        "prev_close": 10897.27,
+        "change_pct": -0.2677
+      },
+      {
+        "symbol": "^GDAXI",
+        "name": "DAX (live)",
+        "last": 25629.240234375,
+        "prev_close": 25612.03,
+        "change_pct": 0.0672
+      },
+      {
+        "symbol": "^STOXX50E",
+        "name": "Euro Stoxx 50 (live)",
+        "last": 6358.009765625,
+        "prev_close": 6334.669921875,
+        "change_pct": 0.3684
+      }
+    ],
+    "rates": [
+      {
+        "symbol": "^IRX",
+        "name": "13-week",
+        "yield_pct": 3.682,
+        "prev_yield_pct": 3.675,
+        "change_bp": 0.7
+      },
+      {
+        "symbol": "^FVX",
+        "name": "5-year",
+        "yield_pct": 4.46,
+        "prev_yield_pct": 4.375,
+        "change_bp": 8.5
+      },
+      {
+        "symbol": "^TNX",
+        "name": "10-year",
+        "yield_pct": 4.745,
+        "prev_yield_pct": 4.663,
+        "change_bp": 8.2
+      },
+      {
+        "symbol": "^TYX",
+        "name": "30-year",
+        "yield_pct": 5.275,
+        "prev_yield_pct": 5.208,
+        "change_bp": 6.7
+      }
+    ],
+    "dollar_commodities_crypto": [
+      {
+        "symbol": "DX-Y.NYB",
+        "name": "Dollar index",
+        "last": 99.66699981689453,
+        "prev_close": 99.8030014038086,
+        "change_pct": -0.1363
+      },
+      {
+        "symbol": "CL=F",
+        "name": "WTI crude",
+        "last": 80.62999725341797,
+        "prev_close": 84.66999816894531,
+        "change_pct": -4.7715
+      },
+      {
+        "symbol": "BZ=F",
+        "name": "Brent",
+        "last": 90.12000274658203,
+        "prev_close": 88.05000305175781,
+        "change_pct": 2.3509
+      },
+      {
+        "symbol": "GC=F",
+        "name": "Gold",
+        "last": 4103.2001953125,
+        "prev_close": 4107.0,
+        "change_pct": -0.0925
+      },
+      {
+        "symbol": "BTC-USD",
+        "name": "Bitcoin",
+        "last": 63180.01171875,
+        "prev_close": 63413.30078125,
+        "change_pct": -0.3679
+      },
+      {
+        "symbol": "ETH-USD",
+        "name": "Ether",
+        "last": 1869.5,
+        "prev_close": 1881.8299560546875,
+        "change_pct": -0.6552
+      }
+    ],
+    "recap": {
+      "indices": [
+        {
+          "symbol": "^GSPC",
+          "name": "S&P 500",
+          "last": 7489.72021484375,
+          "prev_close": 7437.6298828125,
+          "change_pct": 0.7004
+        },
+        {
+          "symbol": "^IXIC",
+          "name": "Nasdaq",
+          "last": 25373.849609375,
+          "prev_close": 25122.1796875,
+          "change_pct": 1.0018
+        },
+        {
+          "symbol": "^DJI",
+          "name": "Dow",
+          "last": 52485.03125,
+          "prev_close": 52208.05859375,
+          "change_pct": 0.5305
+        },
+        {
+          "symbol": "^RUT",
+          "name": "Russell 2000",
+          "last": 2931.340087890625,
+          "prev_close": 2946.10009765625,
+          "change_pct": -0.501
+        }
+      ],
+      "sector_leaders": [
+        {
+          "symbol": "XLY",
+          "name": "Consumer disc.",
+          "last": 116.08999633789062,
+          "prev_close": 112.38999938964844,
+          "change_pct": 3.2921
+        },
+        {
+          "symbol": "XLC",
+          "name": "Comm. services",
+          "last": 108.23999786376953,
+          "prev_close": 106.58000183105469,
+          "change_pct": 1.5575
+        },
+        {
+          "symbol": "XLE",
+          "name": "Energy",
+          "last": 59.54999923706055,
+          "prev_close": 58.959999084472656,
+          "change_pct": 1.0007
+        }
+      ],
+      "sector_laggards": [
+        {
+          "symbol": "XLB",
+          "name": "Materials",
+          "last": 50.43000030517578,
+          "prev_close": 51.63999938964844,
+          "change_pct": -2.3431
+        },
+        {
+          "symbol": "XLU",
+          "name": "Utilities",
+          "last": 44.349998474121094,
+          "prev_close": 44.65999984741211,
+          "change_pct": -0.6941
+        },
+        {
+          "symbol": "XLV",
+          "name": "Health care",
+          "last": 162.5500030517578,
+          "prev_close": 163.52000427246094,
+          "change_pct": -0.5932
+        }
+      ]
+    },
+    "watchlist": {
+      "Market": [
+        {
+          "symbol": "SPY",
+          "name": "S&P 500",
+          "prev_close": 741.69,
+          "premarket_price": 744.21,
+          "premarket_pct": 0.3398,
+          "session": "pre"
+        },
+        {
+          "symbol": "QQQ",
+          "name": "Nasdaq 100",
+          "prev_close": 683.55,
+          "premarket_price": 684.47,
+          "premarket_pct": 0.1346,
+          "session": "pre"
+        },
+        {
+          "symbol": "IWM",
+          "name": "Russell 2000 \u2014 small caps",
+          "prev_close": 292.59,
+          "premarket_price": 289.81,
+          "premarket_pct": -0.9501,
+          "session": "pre"
+        },
+        {
+          "symbol": "DIA",
+          "name": "Dow",
+          "prev_close": 521.51,
+          "premarket_price": 523.25,
+          "premarket_pct": 0.3336,
+          "session": "pre"
+        }
+      ],
+      "Business Intel": [
+        {
+          "symbol": "AAPL",
+          "name": "Apple \u2014 product cycle news moves used iPad/MacBook prices",
+          "prev_close": 333.43,
+          "premarket_price": 307.34,
+          "premarket_pct": -7.8247,
+          "session": "pre"
+        },
+        {
+          "symbol": "EBAY",
+          "name": "the marketplace itself \u2014 fees, buyer traffic, GMV commentary",
+          "prev_close": 113.520004,
+          "premarket_price": 113.5,
+          "premarket_pct": -0.0176,
+          "session": "pre"
+        },
+        {
+          "symbol": "MU",
+          "name": "Micron \u2014 IS the DDR4/DRAM shortage story; earnings = RAM price signal",
+          "prev_close": 874.66003,
+          "premarket_price": 812.48,
+          "premarket_pct": -7.1091,
+          "session": "pre"
+        },
+        {
+          "symbol": "WDC",
+          "name": "Western Digital \u2014 drives/NAND",
+          "prev_close": 533.04004,
+          "premarket_price": 537.0,
+          "premarket_pct": 0.7429,
+          "session": "pre"
+        },
+        {
+          "symbol": "SNDK",
+          "name": "SanDisk (NAND pure-play, spun off WDC) \u2014 SSD cost signal",
+          "prev_close": 1279.96,
+          "premarket_price": 1205.0001,
+          "premarket_pct": -5.8564,
+          "session": "pre"
+        },
+        {
+          "symbol": "DELL",
+          "name": "Dell \u2014 Latitude/Precision supply side",
+          "prev_close": 404.81,
+          "premarket_price": 402.38,
+          "premarket_pct": -0.6003,
+          "session": "pre"
+        },
+        {
+          "symbol": "HPQ",
+          "name": "HP \u2014 ProBook/EliteBook supply side",
+          "prev_close": 26.86,
+          "premarket_price": 27.22,
+          "premarket_pct": 1.3403,
+          "session": "pre"
+        },
+        {
+          "symbol": "BBY",
+          "name": "Best Buy \u2014 consumer electronics demand read",
+          "prev_close": 87.82,
+          "premarket_price": 86.6717,
+          "premarket_pct": -1.3076,
+          "session": "pre"
+        }
+      ],
+      "Income Portfolio": [
+        {
+          "symbol": "SCHD",
+          "name": "dividend core",
+          "prev_close": 33.41,
+          "premarket_price": 33.517,
+          "premarket_pct": 0.3203,
+          "session": "pre"
+        },
+        {
+          "symbol": "JEPI",
+          "name": "covered-call income",
+          "prev_close": 57.24,
+          "premarket_price": 57.42,
+          "premarket_pct": 0.3145,
+          "session": "pre"
+        },
+        {
+          "symbol": "SPYI",
+          "name": "S&P income",
+          "prev_close": 52.52,
+          "premarket_price": 52.775,
+          "premarket_pct": 0.4855,
+          "session": "pre"
+        },
+        {
+          "symbol": "CHPY",
+          "name": "weekly income leg",
+          "prev_close": 67.29,
+          "premarket_price": 67.41,
+          "premarket_pct": 0.1783,
+          "session": "pre"
+        },
+        {
+          "symbol": "QLDY",
+          "name": "weekly income leg",
+          "prev_close": 40.72,
+          "premarket_price": 40.73,
+          "premarket_pct": 0.0246,
+          "session": "pre"
+        }
+      ]
+    },
+    "movers": {
+      "gainers": [
+        {
+          "symbol": "AMZN",
+          "prev_close": 235.49998,
+          "premarket_price": 270.4988,
+          "premarket_pct": 14.8615,
+          "session": "pre"
+        },
+        {
+          "symbol": "GOOGL",
+          "prev_close": 333.66,
+          "premarket_price": 354.1999,
+          "premarket_pct": 6.1559,
+          "session": "pre"
+        },
+        {
+          "symbol": "CVX",
+          "prev_close": 192.31,
+          "premarket_price": 198.49,
+          "premarket_pct": 3.2136,
+          "session": "pre"
+        },
+        {
+          "symbol": "OXY",
+          "prev_close": 55.95,
+          "premarket_price": 57.5913,
+          "premarket_pct": 2.9335,
+          "session": "pre"
+        },
+        {
+          "symbol": "META",
+          "prev_close": 539.03,
+          "premarket_price": 553.9,
+          "premarket_pct": 2.7587,
+          "session": "pre"
+        }
+      ],
+      "losers": [
+        {
+          "symbol": "COIN",
+          "prev_close": 163.57999,
+          "premarket_price": 145.75,
+          "premarket_pct": -10.8999,
+          "session": "pre"
+        },
+        {
+          "symbol": "AAPL",
+          "prev_close": 333.43,
+          "premarket_price": 307.34,
+          "premarket_pct": -7.8247,
+          "session": "pre"
+        },
+        {
+          "symbol": "MU",
+          "prev_close": 874.66003,
+          "premarket_price": 812.48,
+          "premarket_pct": -7.1091,
+          "session": "pre"
+        },
+        {
+          "symbol": "SNDK",
+          "prev_close": 1279.96,
+          "premarket_price": 1205.0001,
+          "premarket_pct": -5.8564,
+          "session": "pre"
+        },
+        {
+          "symbol": "SHOP",
+          "prev_close": 122.4,
+          "premarket_price": 116.8999,
+          "premarket_pct": -4.4935,
+          "session": "pre"
+        }
+      ]
+    }
+  },
+  "calendar": {
+    "fetched_at": "2026-08-02T20:27:47.054323-05:00",
+    "events": []
+  },
+  "earnings": {
+    "before_open": {
+      "shown": [],
+      "overflow_count": 0
+    },
+    "after_close": {
+      "shown": [],
+      "overflow_count": 0
+    },
+    "fetched_at": "2026-08-02T20:26:36.790462-05:00",
+    "source": null
+  },
+  "news": {
+    "fetched_at": "2026-08-02T20:27:48.366834-05:00",
+    "headlines": [
+      {
+        "title": "U.S., Japan confirm coordinated yen intervention, signal readiness for more",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/03/yen-intervention-us-japan-trump-bessent-katayama.html",
+        "published_ct": "2026-08-02T19:59:33-05:00"
+      },
+      {
+        "title": "Oil drops over 4% after Trump calls off planned strike on Iran",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/03/oil-prices-today-wti-brent-hormuz-trump-iran.html",
+        "published_ct": "2026-08-02T18:33:07-05:00"
+      },
+      {
+        "title": "AstraZeneca in talks with Bristol Myers Squibb on $400 billion megadeal, FT reports",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/02/astrazeneca-and-bristol-myers-squibb-mull-400-billion-deal-report-.html",
+        "published_ct": "2026-08-02T17:17:47-05:00"
+      },
+      {
+        "title": "Here's my power rankings for the big 4 hyperscalers after this earnings season",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/02/heres-my-power-rankings-for-the-big-4-hyperscalers-after-this-earnings-season.html",
+        "published_ct": "2026-08-02T15:27:44-05:00"
+      },
+      {
+        "title": "GOP Sen. Moreno says ex-son-in-law Max Miller shouldn't serve in House, needs 'serious psychological help'",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/02/bernie-moreno-max-miller-house-psychological-help-emily-moreno.html",
+        "published_ct": "2026-08-02T14:13:47-05:00"
+      },
+      {
+        "title": "Op-ed: The U.S. lead over China in AI is all but gone. We need a change in national strategy",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/02/ai-model-competition-us-china.html",
+        "published_ct": "2026-08-02T13:23:03-05:00"
+      },
+      {
+        "title": "We\u2019re in our 60s with $1.5 million. Would a trust be more effective than a will to prevent conflict among our heirs?",
+        "source": "MarketWatch Top",
+        "url": "https://www.marketwatch.com/story/we-already-have-wills-were-in-our-60s-with-1-5-million-how-do-we-prevent-family-drama-among-our-heirs-bf7b0eb1?mod=mw_rss_topstories",
+        "published_ct": "2026-08-02T12:00:00-05:00"
+      },
+      {
+        "title": "Looking at just the odds isn\u2019t enough. How traders gain an edge on prediction markets",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/01/traders-go-full-time-on-prediction-markets-using-ai-bots-and-antennas.html",
+        "published_ct": "2026-08-02T11:54:18-05:00"
+      },
+      {
+        "title": "Cathie Wood sells $5.5 million of surging tech stock",
+        "source": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/cathie-wood-sells-5-5-163300469.html",
+        "published_ct": "2026-08-02T11:33:00-05:00"
+      },
+      {
+        "title": "Warren Buffett keeps pointing at the same ETF for a reason",
+        "source": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/warren-buffett-keeps-pointing-same-160300409.html",
+        "published_ct": "2026-08-02T11:03:00-05:00"
+      },
+      {
+        "title": "My girlfriend is 62. Can she claim her late husband\u2019s full Social Security benefit \u2014 or does she have to wait?",
+        "source": "MarketWatch Top",
+        "url": "https://www.marketwatch.com/story/my-girlfriend-is-62-can-she-claim-her-late-husbands-full-social-security-benefit-or-does-she-have-to-wait-315c0fa1?mod=mw_rss_topstories",
+        "published_ct": "2026-08-02T11:00:00-05:00"
+      },
+      {
+        "title": "'Spider-Man: Brand New Day' chases 'Avengers: Endgame' opening record with $355 million domestic debut",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/02/spider-man-brand-new-day-box-office-355-million-domestic-opening.html",
+        "published_ct": "2026-08-02T10:54:05-05:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ cfg.site_title }} — {{ edition_date.strftime('%b %-d, %Y') }}</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0E141B">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0E141B;
+  --card:    #151D26;
+  --line:    #24303C;
+  --text:    #E9E4D8;
+  --dim:     #8B95A1;
+  --brass:   #D9A441;
+  --up:      #55A67C;
+  --down:    #C4655C;
+  --horizon: linear-gradient(90deg, #16202B 0%, #3A4A5C 45%, #D9A441 82%, #F0C36A 100%);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+a { color: var(--brass); text-decoration: none; }
+a:hover, a:focus-visible { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
+.masthead { padding: 20px 16px 0; text-align: center; }
+.masthead h1 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  margin: 0;
+  color: var(--text);
+}
+.masthead .date { color: var(--dim); margin-top: 6px; font-size: 0.95rem; }
+.masthead .generated { color: var(--dim); font-size: 0.8rem; margin-top: 2px; }
+.banner {
+  margin: 12px auto 0; max-width: 720px; background: var(--card); border: 1px solid var(--brass);
+  color: var(--brass); border-radius: 10px; padding: 8px 14px; font-size: 0.85rem; text-align: center;
+}
+.countdown-row { margin-top: 16px; text-align: center; padding-bottom: 14px; }
+.countdown {
+  font-family: 'IBM Plex Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--brass);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.horizon-rule { height: 2px; background: var(--horizon); border: none; margin: 0; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+.section-label {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  border-bottom: 2px solid var(--brass);
+  display: inline-block;
+  padding-bottom: 4px;
+  margin: 0 0 12px;
+}
+.unavailable { color: var(--dim); font-style: italic; font-size: 0.9rem; }
+.synth-headline { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.35; }
+.synth-block { margin-bottom: 12px; }
+.synth-block:last-child { margin-bottom: 0; }
+.synth-block .label { font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brass); margin-bottom: 3px; }
+.synth-block p { margin: 0; font-size: 0.92rem; color: var(--text); }
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.tile { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.tile .name { color: var(--dim); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.tile .price { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; font-size: 1.05rem; margin-top: 3px; }
+.tile .pct { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; font-size: 0.85rem; margin-top: 2px; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+.subhead { color: var(--dim); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 14px 0 8px; }
+.subhead:first-child { margin-top: 0; }
+.cal-row { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+.cal-row:last-child { border-bottom: none; }
+.cal-time { font-family: 'IBM Plex Mono', monospace; color: var(--dim); flex-shrink: 0; width: 84px; }
+.cal-title { flex: 1; }
+.cal-meta { color: var(--dim); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+.badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; border-radius: 5px; padding: 2px 6px; margin-left: 6px; }
+.badge-high { background: var(--brass); color: var(--bg); }
+.badge-med { border: 1px solid var(--brass); color: var(--brass); }
+.bell { color: var(--brass); margin-left: 4px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 480px) { .two-col { grid-template-columns: 1fr; gap: 10px; } }
+.col-label { color: var(--dim); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.earn-row, .mover-row { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; font-size: 0.85rem; }
+.earn-row .sym.notable { font-weight: 700; }
+.overflow-note { color: var(--dim); font-size: 0.78rem; margin-top: 6px; }
+.wl-group { margin-top: 14px; }
+.wl-group:first-child { margin-top: 0; }
+.wl-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+.wl-row:last-child { border-bottom: none; }
+.wl-row.dim-row { opacity: 0.55; }
+.wl-sym { font-weight: 600; }
+.wl-note { color: var(--dim); font-size: 0.72rem; }
+.wl-right { text-align: right; }
+.headline-row { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+.headline-row:last-child { border-bottom: none; }
+.headline-meta { color: var(--dim); font-size: 0.75rem; margin-top: 2px; }
+.recap-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: 0.8rem; }
+footer { color: var(--dim); font-size: 0.78rem; text-align: center; margin-top: 24px; padding: 0 8px; }
+footer a { color: var(--dim); text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <h1>{{ cfg.site_title | upper }}</h1>
+    <div class="date">{{ edition_date.strftime('%A, %B %-d, %Y') }}</div>
+    <div class="generated">Generated {{ generated_at.strftime('%-I:%M %p CT') }}</div>
+  </div>
+
+  {% if banner %}
+  <div class="banner">{{ banner }}</div>
+  {% elif early_close %}
+  <div class="banner">Early close today: 12:00 PM CT</div>
+  {% endif %}
+
+  <div class="countdown-row">
+    <span id="countdown" class="countdown mono" data-open="{{ market_open_epoch_ms or '' }}" data-close="{{ market_close_epoch_ms or '' }}">&nbsp;</span>
+  </div>
+</div>
+<hr class="horizon-rule">
+<div class="wrap">
+
+  <!-- Synthesis -->
+  <div class="card">
+    <div class="section-label">This Morning</div>
+    <p class="synth-headline">{{ synthesis.headline }}</p>
+    {% if synthesis.overnight %}
+    <div class="synth-block"><div class="label">Overnight</div><p>{{ synthesis.overnight }}</p></div>
+    {% endif %}
+    {% if synthesis.today_setup %}
+    <div class="synth-block"><div class="label">Today's Setup</div><p>{{ synthesis.today_setup }}</p></div>
+    {% endif %}
+    {% if synthesis.risk_watch %}
+    <div class="synth-block"><div class="label">Risk Watch</div><p>{{ synthesis.risk_watch }}</p></div>
+    {% endif %}
+    {% if synthesis.watchlist_note %}
+    <div class="synth-block"><div class="label">Watchlist Note</div><p>{{ synthesis.watchlist_note }}</p></div>
+    {% endif %}
+  </div>
+
+  <!-- Futures & overnight -->
+  <div class="card">
+    <div class="section-label">Futures &amp; Overnight</div>
+    {% if data.markets.futures or data.markets.volatility %}
+    <div class="tile-grid">
+      {% for t in (data.markets.futures or []) %}
+      <div class="tile">
+        <div class="name">{{ t.name }}</div>
+        <div class="price mono">{{ t.last | fmt_price }}</div>
+        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+      </div>
+      {% endfor %}
+      {% for t in (data.markets.volatility or []) %}
+      <div class="tile">
+        <div class="name">{{ t.name }}</div>
+        <div class="price mono">{{ t.last | fmt_price }}</div>
+        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+
+    {% if data.markets.international %}
+    <div class="subhead">Asia &amp; Europe</div>
+    <div class="tile-grid">
+      {% for t in data.markets.international %}
+      <div class="tile">
+        <div class="name">{{ t.name }}</div>
+        <div class="price mono">{{ t.last | fmt_price }}</div>
+        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Rates & money -->
+  <div class="card">
+    <div class="section-label">Rates &amp; Money</div>
+    {% if data.markets.rates %}
+    <div class="tile-grid">
+      {% for r in data.markets.rates %}
+      <div class="tile">
+        <div class="name">{{ r.name }}</div>
+        <div class="price mono">{{ '%.2f' | format(r.yield_pct) if r.yield_pct is not none else '—' }}%</div>
+        <div class="pct mono {{ 'up' if r.change_bp and r.change_bp >= 0 else 'down' }}">{{ r.change_bp | fmt_bp }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+
+    {% if data.markets.dollar_commodities_crypto %}
+    <div class="subhead">Dollar, Commodities &amp; Crypto</div>
+    <div class="tile-grid">
+      {% for t in data.markets.dollar_commodities_crypto %}
+      <div class="tile">
+        <div class="name">{{ t.name }}</div>
+        <div class="price mono">{{ t.last | fmt_price }}</div>
+        <div class="pct mono {{ 'up' if t.change_pct and t.change_pct >= 0 else 'down' }}">{{ t.change_pct | fmt_pct }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Today's calendar -->
+  <div class="card">
+    <div class="section-label">Today's Calendar</div>
+    {% if data.calendar.events %}
+      {% for e in data.calendar.events %}
+      <div class="cal-row">
+        <div class="cal-time mono">{{ e.time_ct }}</div>
+        <div class="cal-title">
+          {{ e.title }}
+          {% if e.is_fed %}<span class="bell" title="Fed speaker/release">&#128276;</span>{% endif %}
+          {% if e.impact == 'High' %}<span class="badge badge-high">HIGH</span>{% elif e.impact == 'Medium' %}<span class="badge badge-med">MED</span>{% endif %}
+        </div>
+        <div class="cal-meta">
+          {% if e.forecast %}fcst {{ e.forecast }}{% endif %}{% if e.forecast and e.previous %} · {% endif %}{% if e.previous %}prev {{ e.previous }}{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    {% elif data.calendar %}
+      <p class="unavailable">No high-impact US releases today.</p>
+    {% else %}
+      <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+  </div>
+
+  <!-- Earnings today -->
+  <div class="card">
+    <div class="section-label">Earnings Today</div>
+    {% if data.earnings and (data.earnings.before_open or data.earnings.after_close) %}
+    <div class="two-col">
+      <div>
+        <div class="col-label">Before Open</div>
+        {% if data.earnings.before_open.shown %}
+          {% for e in data.earnings.before_open.shown %}
+          <div class="earn-row"><span class="sym {{ 'notable' if e.notable }}">{{ e.symbol }}</span><span class="mono">{{ e.eps_est or '—' }}</span></div>
+          {% endfor %}
+          {% if data.earnings.before_open.overflow_count %}<div class="overflow-note">+{{ data.earnings.before_open.overflow_count }} more</div>{% endif %}
+        {% else %}
+          <p class="unavailable">None scheduled.</p>
+        {% endif %}
+      </div>
+      <div>
+        <div class="col-label">After Close</div>
+        {% if data.earnings.after_close.shown %}
+          {% for e in data.earnings.after_close.shown %}
+          <div class="earn-row"><span class="sym {{ 'notable' if e.notable }}">{{ e.symbol }}</span><span class="mono">{{ e.eps_est or '—' }}</span></div>
+          {% endfor %}
+          {% if data.earnings.after_close.overflow_count %}<div class="overflow-note">+{{ data.earnings.after_close.overflow_count }} more</div>{% endif %}
+        {% else %}
+          <p class="unavailable">None scheduled.</p>
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+    <p class="unavailable">Earnings calendar unavailable.</p>
+    {% endif %}
+  </div>
+
+  <!-- Pre-market movers -->
+  <div class="card">
+    <div class="section-label">Pre-Market Movers</div>
+    {% if data.markets.movers and (data.markets.movers.gainers or data.markets.movers.losers) %}
+    <div class="two-col">
+      <div>
+        <div class="col-label">Gainers</div>
+        {% for m in data.markets.movers.gainers %}
+        <div class="mover-row"><span class="sym">{{ m.symbol }}</span><span class="mono up">{{ m.premarket_price | fmt_price }} &nbsp; {{ m.premarket_pct | fmt_pct }}</span></div>
+        {% endfor %}
+      </div>
+      <div>
+        <div class="col-label">Losers</div>
+        {% for m in data.markets.movers.losers %}
+        <div class="mover-row"><span class="sym">{{ m.symbol }}</span><span class="mono down">{{ m.premarket_price | fmt_price }} &nbsp; {{ m.premarket_pct | fmt_pct }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+  </div>
+
+  <!-- Watchlist -->
+  <div class="card">
+    <div class="section-label">Watchlist</div>
+    {% if data.markets.watchlist %}
+      {% for group, rows in data.markets.watchlist.items() %}
+      <div class="wl-group">
+        <div class="subhead">{{ group }}</div>
+        {% for r in rows %}
+        <div class="wl-row {{ 'dim-row' if r.session == 'prev' }}" title="{{ r.name }}">
+          <span class="wl-sym">{{ r.symbol }}</span>
+          <span class="wl-right mono">
+            {{ r.premarket_price | fmt_price }} &nbsp;
+            <span class="{{ 'up' if r.premarket_pct and r.premarket_pct >= 0 else 'down' }}">{{ r.premarket_pct | fmt_pct }}</span>
+            {% if r.session == 'prev' %}<span class="wl-note">no pre-mkt print</span>{% endif %}
+          </span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {% else %}
+    <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+  </div>
+
+  <!-- Headlines -->
+  <div class="card">
+    <div class="section-label">Headlines</div>
+    {% if data.news.headlines %}
+      {% for h in data.news.headlines %}
+      <div class="headline-row">
+        <a href="{{ h.url }}" target="_blank" rel="noopener">{{ h.title }}</a>
+        <div class="headline-meta">{{ h.source }} · {{ h.published_ct | age_ago }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+  </div>
+
+  <!-- Yesterday -->
+  <div class="card">
+    <div class="section-label">Yesterday</div>
+    {% if data.markets.recap %}
+      <div class="recap-tiles">
+        {% for i in data.markets.recap.indices %}
+        <div class="tile">
+          <div class="name">{{ i.name }}</div>
+          <div class="price mono">{{ i.last | fmt_price }}</div>
+          <div class="pct mono {{ 'up' if i.change_pct and i.change_pct >= 0 else 'down' }}">{{ i.change_pct | fmt_pct }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="subhead">Leaders</div>
+      <div class="chip-row">
+        {% for s in data.markets.recap.sector_leaders %}
+        <span class="chip up">{{ s.name }} {{ s.change_pct | fmt_pct }}</span>
+        {% endfor %}
+      </div>
+      <div class="subhead">Laggards</div>
+      <div class="chip-row">
+        {% for s in data.markets.recap.sector_laggards %}
+        <span class="chip down">{{ s.name }} {{ s.change_pct | fmt_pct }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+    <p class="unavailable">Data unavailable this morning.</p>
+    {% endif %}
+  </div>
+
+  <footer>
+    Data: Yahoo Finance, ForexFactory, Nasdaq, public RSS. Quotes may be delayed.
+    Informational only — not investment advice.
+    <br>
+    <a href="{{ github_url }}" target="_blank" rel="noopener">{{ github_url }}</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var el = document.getElementById('countdown');
+  var openMs = el.dataset.open ? parseInt(el.dataset.open, 10) : null;
+  var closeMs = el.dataset.close ? parseInt(el.dataset.close, 10) : null;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function render() {
+    if (!openMs) { el.textContent = 'MARKET CLOSED'; return; }
+    var now = Date.now();
+    if (now < openMs) {
+      var remaining = Math.max(0, openMs - now);
+      var totalSec = Math.floor(remaining / 1000);
+      var h = Math.floor(totalSec / 3600);
+      var m = Math.floor((totalSec % 3600) / 60);
+      var s = totalSec % 60;
+      var label = h > 0 ? (h + ':' + pad(m) + ':' + pad(s)) : (pad(m) + ':' + pad(s));
+      el.textContent = 'BELL IN ' + label;
+    } else if (closeMs && now < closeMs) {
+      el.textContent = 'MARKET OPEN';
+    } else {
+      el.textContent = 'MARKET CLOSED';
+    }
+  }
+
+  render();
+  setInterval(render, reduced ? 60000 : 1000);
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

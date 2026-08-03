@@ -1,0 +1,49 @@
+name: Build Morning Brief
+
+on:
+  schedule:
+    - cron: "40 12 * * 1-5"   # 7:40 AM CDT (summer)
+    - cron: "40 13 * * 1-5"   # 7:40 AM CST (winter)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      built: ${{ steps.build.outputs.built }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Build the brief
+        id: build
+        run: python -m src.build >> "$GITHUB_OUTPUT"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.build.outputs.built == 'true'
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.built == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
