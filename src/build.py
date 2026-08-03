@@ -1,9 +1,8 @@
-"""Orchestrator: session/hour guards, fetch, synthesize, render.
+"""Orchestrator: session/hour guards, fetch, compute the digest, render.
 
 CLI:
     python -m src.build              # normal (guarded) run
     python -m src.build --force      # bypass hour + session guards, build now with live data
-    python -m src.build --no-synth   # skip the Claude call, render the fallback block
     python -m src.build --fixture    # build from tests/fixture_data.json instead of the network
 """
 import argparse
@@ -14,7 +13,8 @@ import sys
 
 import pandas_market_calendars as mcal
 
-from src import fetch_calendar, fetch_earnings, fetch_markets, fetch_news, render, synthesize
+from src import digest as digest_module
+from src import fetch_calendar, fetch_earnings, fetch_markets, fetch_news, render
 from src.util import CT, REPO_ROOT, load_config, now_ct, safe
 
 logger = logging.getLogger("morning_brief")
@@ -80,7 +80,6 @@ def assemble_data(cfg: dict) -> dict:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--force", action="store_true", help="bypass hour + session guards")
-    parser.add_argument("--no-synth", action="store_true", help="skip the Claude call")
     parser.add_argument("--fixture", action="store_true", help="build from tests/fixture_data.json")
     args = parser.parse_args()
 
@@ -114,7 +113,7 @@ def main():
             FIXTURE_PATH.write_text(json.dumps(data, indent=2, default=str))
             logger.info("Saved fixture snapshot to %s", FIXTURE_PATH)
 
-    synthesis = synthesize.synthesize(data, cfg=cfg, no_synth=args.no_synth, early_close=sess["early_close"])
+    digest = digest_module.build_digest(data, early_close=sess["early_close"])
 
     ctx = {
         "generated_at": now_ct(),
@@ -125,7 +124,7 @@ def main():
         "market_close_epoch_ms": sess["market_close_epoch_ms"],
         "banner": sess["banner"],
     }
-    render.render(data, synthesis, cfg, ctx)
+    render.render(data, digest, cfg, ctx)
     logger.info("Build complete.")
     print("built=true")
 

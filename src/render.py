@@ -65,7 +65,7 @@ def _env() -> Environment:
     return env
 
 
-def render(data: dict, synthesis: dict, cfg: dict, ctx: dict) -> None:
+def render(data: dict, digest: dict, cfg: dict, ctx: dict) -> None:
     DIST_DIR.mkdir(parents=True, exist_ok=True)
 
     env = _env()
@@ -73,7 +73,7 @@ def render(data: dict, synthesis: dict, cfg: dict, ctx: dict) -> None:
     html = template.render(
         cfg=cfg,
         data=data,
-        synthesis=synthesis,
+        digest=digest,
         github_url=GITHUB_URL,
         **ctx,
     )

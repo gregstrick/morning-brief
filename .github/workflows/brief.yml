@@ -35,7 +35,6 @@ jobs:
         id: build
         run: python -m src.build ${{ inputs.force && '--force' || '' }} >> "$GITHUB_OUTPUT"
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
       - uses: actions/upload-pages-artifact@v3
         if: steps.build.outputs.built == 'true'

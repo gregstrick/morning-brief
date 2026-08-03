@@ -237,18 +237,18 @@ footer a { color: var(--dim); text-decoration: underline; }
 
     <div class="card">
       <div class="section-label">This Morning</div>
-      <p class="synth-headline">{{ synthesis.headline }}</p>
-      {% if synthesis.overnight %}
-      <div class="synth-block"><div class="label">Overnight</div><p>{{ synthesis.overnight }}</p></div>
+      <p class="synth-headline">{{ digest.headline }}</p>
+      {% if digest.overnight %}
+      <div class="synth-block"><div class="label">Overnight</div><p>{{ digest.overnight }}</p></div>
       {% endif %}
-      {% if synthesis.today_setup %}
-      <div class="synth-block"><div class="label">Today's Setup</div><p>{{ synthesis.today_setup }}</p></div>
+      {% if digest.today_setup %}
+      <div class="synth-block"><div class="label">Today's Setup</div><p>{{ digest.today_setup }}</p></div>
       {% endif %}
-      {% if synthesis.risk_watch %}
-      <div class="synth-block"><div class="label">Risk Watch</div><p>{{ synthesis.risk_watch }}</p></div>
+      {% if digest.risk_watch %}
+      <div class="synth-block"><div class="label">Risk Watch</div><p>{{ digest.risk_watch }}</p></div>
       {% endif %}
-      {% if synthesis.watchlist_note %}
-      <div class="synth-block"><div class="label">Watchlist Note</div><p>{{ synthesis.watchlist_note }}</p></div>
+      {% if digest.watchlist_note %}
+      <div class="synth-block"><div class="label">Watchlist Note</div><p>{{ digest.watchlist_note }}</p></div>
       {% endif %}
     </div>
 

@@ -2,43 +2,46 @@
 
 A static, installable web app (PWA) that publishes a pre-market briefing every trading day at ~7:40 AM
 Central — futures, overnight action, rates, today's economic calendar and Fed speakers, earnings,
-pre-market movers, a personal watchlist, headlines, and an AI-written synthesis up top. Built by a Python
-pipeline on a GitHub Actions schedule, hosted free on GitHub Pages.
+pre-market movers, a personal watchlist, headlines, and a computed morning digest up top. Built by a Python
+pipeline on a GitHub Actions schedule, hosted free on GitHub Pages. No paid services, no API keys required.
 
 The page is organized into four tabs (the masthead/countdown and footer are always visible above/below
 them):
 
-1. **Summary** — the AI synthesis, futures & overnight, rates & money, yesterday's recap. Everything you
-   need in 90 seconds.
-2. **News & Calendar** — today's economic releases and Fed speakers, today's earnings reporters, headlines.
+1. **Summary** — the morning digest, futures & overnight, rates & money, yesterday's recap. Everything you
+   need in 90 seconds. The digest (headline + four short blocks) isn't AI-written — it's computed straight
+   from the same market/calendar/earnings data below it by [`src/digest.py`](src/digest.py): plain Python
+   rules (biggest overnight mover, today's highest-impact release, any watchlist name reporting earnings,
+   etc.), so there's no API key, no cost, and no third-party ToS to worry about.
+2. **News & Calendar** — today's economic releases and Fed speakers, today's earnings reporters, headlines
+   from multiple reputable sources (CNBC, MarketWatch, Yahoo Finance).
 3. **Movers** — today's biggest pre-market gainers/losers (outliers) across the scan universe.
 4. **Watchlist** — your configured tickers, with a **Customize** toggle to show/hide and reorder them
    (saved in your browser), plus an optional **Quick Lookup** box for live quotes on any ticker — see
    [Live ticker lookup](#live-ticker-lookup-optional) below.
 
-Full product spec: [`MorningBrief_Build_Spec.md`](MorningBrief_Build_Spec.md).
+Full product spec: [`MorningBrief_Build_Spec.md`](MorningBrief_Build_Spec.md) (note: the spec's original
+design used an AI-written synthesis; that was swapped for the free deterministic digest above, everything
+else matches).
 
 ## One-time setup
 
 1. **Enable Pages.** Repo → Settings → Pages → Source: **GitHub Actions**.
-2. **Get an API key.** [console.anthropic.com](https://console.anthropic.com) → API Keys → create key.
-   This is the Claude **API** (usage-billed, separate from a Claude Pro subscription) — add a few dollars
-   of credit; at roughly 3¢/day of usage that's several months of briefs.
-3. **Add secrets.** Repo → Settings → Secrets and variables → Actions → new secret `ANTHROPIC_API_KEY`.
-   Optionally register a free key at [finnhub.io](https://finnhub.io) and add `FINNHUB_API_KEY` as a
-   fallback for the earnings calendar.
-4. **First run.** Actions tab → *Build Morning Brief* → **Run workflow**. Check **force** if you want a
+2. **(Optional) Add a Finnhub key.** Register a free key at [finnhub.io](https://finnhub.io) and add it as
+   repo secret `FINNHUB_API_KEY` — only used as a fallback if Nasdaq's earnings API blocks the runner. Not
+   required; the earnings card just says "unavailable" without it.
+3. **First run.** Actions tab → *Build Morning Brief* → **Run workflow**. Check **force** if you want a
    live page right now regardless of what day it is (the scheduled run only publishes on trading days —
    `force` bypasses that guard for on-demand testing). Green check → the brief is live at
    `https://<username>.github.io/morning-brief/`.
-5. **Install it as an app.** It's a PWA, so any Chromium or Safari browser can install it as a standalone
+4. **Install it as an app.** It's a PWA, so any Chromium or Safari browser can install it as a standalone
    window with its own icon — same brief, same URL, on every device:
    - **iPhone:** open the URL in Safari → Share → **Add to Home Screen**.
    - **Mac:** Chrome/Edge's install icon (a monitor-with-arrow) in the address bar, or Safari → File →
      **Add to Dock**.
    - **Windows PC:** open the URL in Chrome or Edge → the install icon in the address bar (or menu → **Apps
      → Install this site as an app**) → it lands in the Start Menu and taskbar like any other app.
-6. Edit `config/config.yml` any time to change the watchlist, universe, or feeds — commit and it takes
+5. Edit `config/config.yml` any time to change the watchlist, universe, or feeds — commit and it takes
    effect on the next scheduled run (or trigger the workflow manually to see it now).
 
 ## Local development
@@ -47,8 +50,7 @@ Full product spec: [`MorningBrief_Build_Spec.md`](MorningBrief_Build_Spec.md).
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
-.venv/bin/python -m src.build --force            # build right now with live data
-.venv/bin/python -m src.build --force --no-synth  # same, but skip the Claude call (no token spend)
+.venv/bin/python -m src.build --force             # build right now with live data
 .venv/bin/python -m src.build --fixture           # build from tests/fixture_data.json, no network
 
 .venv/bin/python -m http.server 8000 -d site/dist # preview at http://localhost:8000
@@ -63,6 +65,7 @@ iteration — hard-reload or bump the `CACHE` constant in `site/sw.js` if a stal
 
 | Card | Source | Notes |
 |---|---|---|
+| This Morning digest | Computed from the rows below by `src/digest.py` | No API, no cost, never blocks the build |
 | Futures, rates, FX, commodities, crypto, watchlist, movers, sectors | Yahoo Finance via `yfinance` | Unofficial/scraped; pin the version in `requirements.txt` |
 | Economic calendar | ForexFactory weekly feed, URL in `config.yml` (`economic_calendar_url`) | If it ever 404s, check the ForexFactory calendar-widget docs for the current feed URL |
 | Earnings | Nasdaq calendar API, Finnhub fallback | Nasdaq occasionally blocks datacenter IPs (GitHub runners); Finnhub needs `FINNHUB_API_KEY` |

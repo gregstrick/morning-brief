@@ -1,6 +1,5 @@
 timezone: America/Chicago
 site_title: "Morning Brief"
-model: claude-sonnet-5          # synthesis model; claude-haiku-4-5 is the budget swap
 max_headlines: 12
 headline_window_hours: 18       # ignore RSS items older than this
 # Optional: URL of a Cloudflare Worker (or similar) that proxies Yahoo Finance

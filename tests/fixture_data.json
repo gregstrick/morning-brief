@@ -1,35 +1,35 @@
 {
-  "fetched_at": "2026-08-02T21:31:46.576694-05:00",
+  "fetched_at": "2026-08-02T22:10:11.230551-05:00",
   "markets": {
-    "fetched_at": "2026-08-02T21:31:46.576713-05:00",
+    "fetched_at": "2026-08-02T22:10:11.230557-05:00",
     "futures": [
       {
         "symbol": "ES=F",
         "name": "S&P 500",
-        "last": 7561.0,
+        "last": 7519.25,
         "prev_close": 7519.25,
-        "change_pct": 0.5552
+        "change_pct": 0.0
       },
       {
         "symbol": "NQ=F",
         "name": "Nasdaq 100",
-        "last": 28672.5,
+        "last": 28404.25,
         "prev_close": 28404.25,
-        "change_pct": 0.9444
+        "change_pct": 0.0
       },
       {
         "symbol": "YM=F",
         "name": "Dow",
-        "last": 52886.0,
+        "last": 52635.0,
         "prev_close": 52635.0,
-        "change_pct": 0.4769
+        "change_pct": 0.0
       },
       {
         "symbol": "RTY=F",
         "name": "Russell 2000",
-        "last": 2956.10009765625,
+        "last": 2955.89990234375,
         "prev_close": 2938.0,
-        "change_pct": 0.6161
+        "change_pct": 0.6093
       }
     ],
     "volatility": [
@@ -45,23 +45,23 @@
       {
         "symbol": "^N225",
         "name": "Nikkei 225 (closed)",
-        "last": 63384.87890625,
+        "last": 63240.51171875,
         "prev_close": 64299.390625,
-        "change_pct": -1.4223
+        "change_pct": -1.6468
       },
       {
         "symbol": "^HSI",
         "name": "Hang Seng (closed)",
-        "last": 25825.66015625,
+        "last": 25924.220703125,
         "prev_close": 25884.4296875,
-        "change_pct": -0.227
+        "change_pct": 0.1537
       },
       {
         "symbol": "000001.SS",
         "name": "Shanghai (closed)",
-        "last": 3806.44384765625,
+        "last": 3809.839111328125,
         "prev_close": 3835.30029296875,
-        "change_pct": -0.7524
+        "change_pct": -0.6639
       },
       {
         "symbol": "^FTSE",
@@ -119,16 +119,16 @@
       {
         "symbol": "DX-Y.NYB",
         "name": "Dollar index",
-        "last": 99.71600341796875,
+        "last": 99.721,
         "prev_close": 99.8030014038086,
-        "change_pct": -0.0872
+        "change_pct": -0.0822
       },
       {
         "symbol": "CL=F",
         "name": "WTI crude",
-        "last": 80.25,
+        "last": 84.66999816894531,
         "prev_close": 84.66999816894531,
-        "change_pct": -5.2203
+        "change_pct": 0.0
       },
       {
         "symbol": "BZ=F",
@@ -140,23 +140,23 @@
       {
         "symbol": "GC=F",
         "name": "Gold",
-        "last": 4114.7001953125,
+        "last": 4049.10009765625,
         "prev_close": 4107.0,
-        "change_pct": 0.1875
+        "change_pct": -1.4098
       },
       {
         "symbol": "BTC-USD",
         "name": "Bitcoin",
-        "last": 63055.0,
+        "last": 63053.0,
         "prev_close": 63499.48828125,
-        "change_pct": -0.7
+        "change_pct": -0.7031
       },
       {
         "symbol": "ETH-USD",
         "name": "Ether",
-        "last": 1863.75,
+        "last": 1862.199951171875,
         "prev_close": 1883.3499755859375,
-        "change_pct": -1.0407
+        "change_pct": -1.123
       }
     ],
     "recap": {
@@ -501,7 +501,7 @@
     }
   },
   "calendar": {
-    "fetched_at": "2026-08-02T21:32:36.776071-05:00",
+    "fetched_at": "2026-08-02T22:10:48.705222-05:00",
     "events": []
   },
   "earnings": {
@@ -513,12 +513,18 @@
       "shown": [],
       "overflow_count": 0
     },
-    "fetched_at": "2026-08-02T21:31:46.576590-05:00",
+    "fetched_at": "2026-08-02T22:10:11.230529-05:00",
     "source": null
   },
   "news": {
-    "fetched_at": "2026-08-02T21:32:38.561518-05:00",
+    "fetched_at": "2026-08-02T22:10:50.569421-05:00",
     "headlines": [
+      {
+        "title": "Oil drops over 4% as Middle East tensions ebb on diplomatic efforts",
+        "source": "CNBC Top News",
+        "url": "https://www.cnbc.com/2026/08/03/oil-prices-today-wti-brent-hormuz-trump-iran.html",
+        "published_ct": "2026-08-02T21:33:19-05:00"
+      },
       {
         "title": "Trump says Iran talks to resume Monday after calling off planned strikes",
         "source": "CNBC Top News",
@@ -530,12 +536,6 @@
         "source": "CNBC Top News",
         "url": "https://www.cnbc.com/2026/08/03/yen-intervention-us-japan-trump-bessent-katayama.html",
         "published_ct": "2026-08-02T19:59:33-05:00"
-      },
-      {
-        "title": "Oil drops over 4% after Trump calls off planned strike on Iran",
-        "source": "CNBC Top News",
-        "url": "https://www.cnbc.com/2026/08/03/oil-prices-today-wti-brent-hormuz-trump-iran.html",
-        "published_ct": "2026-08-02T18:33:07-05:00"
       },
       {
         "title": "AstraZeneca in talks with Bristol Myers Squibb on $400 billion megadeal, FT reports",
