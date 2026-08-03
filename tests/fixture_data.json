@@ -1,35 +1,35 @@
 {
-  "fetched_at": "2026-08-02T22:25:37.797446-05:00",
+  "fetched_at": "2026-08-02T22:46:09.087834-05:00",
   "markets": {
-    "fetched_at": "2026-08-02T22:25:37.797457-05:00",
+    "fetched_at": "2026-08-02T22:46:09.087842-05:00",
     "futures": [
       {
         "symbol": "ES=F",
         "name": "S&P 500",
-        "last": 7561.5,
+        "last": 7560.5,
         "prev_close": 7519.25,
-        "change_pct": 0.5619
+        "change_pct": 0.5486
       },
       {
         "symbol": "NQ=F",
         "name": "Nasdaq 100",
-        "last": 28663.75,
+        "last": 28653.5,
         "prev_close": 28404.25,
-        "change_pct": 0.9136
+        "change_pct": 0.8775
       },
       {
         "symbol": "YM=F",
         "name": "Dow",
-        "last": 52897.0,
+        "last": 52884.0,
         "prev_close": 52635.0,
-        "change_pct": 0.4978
+        "change_pct": 0.4731
       },
       {
         "symbol": "RTY=F",
         "name": "Russell 2000",
-        "last": 2955.5,
+        "last": 2955.300048828125,
         "prev_close": 2938.0,
-        "change_pct": 0.5956
+        "change_pct": 0.5888
       }
     ],
     "volatility": [
@@ -45,23 +45,23 @@
       {
         "symbol": "^N225",
         "name": "Nikkei 225 (closed)",
-        "last": 63240.51171875,
+        "last": 63297.3203125,
         "prev_close": 64299.390625,
-        "change_pct": -1.6468
+        "change_pct": -1.5584
       },
       {
         "symbol": "^HSI",
         "name": "Hang Seng (closed)",
-        "last": 25925.30078125,
+        "last": 25927.5,
         "prev_close": 25884.4296875,
-        "change_pct": 0.1579
+        "change_pct": 0.1664
       },
       {
         "symbol": "000001.SS",
         "name": "Shanghai (closed)",
-        "last": 3808.728271484375,
+        "last": 3809.6455078125,
         "prev_close": 3835.30029296875,
-        "change_pct": -0.6928
+        "change_pct": -0.6689
       },
       {
         "symbol": "^FTSE",
@@ -126,9 +126,9 @@
       {
         "symbol": "CL=F",
         "name": "WTI crude",
-        "last": 79.87000274658203,
+        "last": 79.98999786376953,
         "prev_close": 84.66999816894531,
-        "change_pct": -5.6691
+        "change_pct": -5.5273
       },
       {
         "symbol": "BZ=F",
@@ -140,23 +140,23 @@
       {
         "symbol": "GC=F",
         "name": "Gold",
-        "last": 4119.5,
+        "last": 4117.2001953125,
         "prev_close": 4107.0,
-        "change_pct": 0.3044
+        "change_pct": 0.2484
       },
       {
         "symbol": "BTC-USD",
         "name": "Bitcoin",
-        "last": 63000.171875,
+        "last": 62939.80859375,
         "prev_close": 63499.48828125,
-        "change_pct": -0.7863
+        "change_pct": -0.8814
       },
       {
         "symbol": "ETH-USD",
         "name": "Ether",
-        "last": 1860.02001953125,
+        "last": 1857.2099609375,
         "prev_close": 1883.3499755859375,
-        "change_pct": -1.2387
+        "change_pct": -1.388
       }
     ],
     "recap": {
@@ -501,8 +501,172 @@
     }
   },
   "calendar": {
-    "fetched_at": "2026-08-02T22:26:25.112648-05:00",
-    "events": []
+    "fetched_at": "2026-08-02T22:46:55.232760-05:00",
+    "events": [],
+    "week": [
+      {
+        "weekday": "Monday",
+        "date_label": "Aug 3",
+        "events": [
+          {
+            "time_ct": "9:00 AM CT",
+            "title": "ISM Manufacturing PMI",
+            "impact": "High",
+            "forecast": "54.0",
+            "previous": "53.3",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "9:00 AM CT",
+            "title": "ISM Manufacturing Prices",
+            "impact": "Medium",
+            "forecast": "70.0",
+            "previous": "73.0",
+            "actual": null,
+            "is_fed": false
+          }
+        ]
+      },
+      {
+        "weekday": "Tuesday",
+        "date_label": "Aug 4",
+        "events": [
+          {
+            "time_ct": "9:00 AM CT",
+            "title": "JOLTS Job Openings",
+            "impact": "Medium",
+            "forecast": "7.42M",
+            "previous": "7.59M",
+            "actual": null,
+            "is_fed": false
+          }
+        ]
+      },
+      {
+        "weekday": "Wednesday",
+        "date_label": "Aug 5",
+        "events": [
+          {
+            "time_ct": "7:15 AM CT",
+            "title": "ADP Non-Farm Employment Change",
+            "impact": "Medium",
+            "forecast": "71K",
+            "previous": "98K",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "9:00 AM CT",
+            "title": "ISM Services PMI",
+            "impact": "Medium",
+            "forecast": "54.5",
+            "previous": "54.0",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "3:05 PM CT",
+            "title": "FOMC Member Cook Speaks",
+            "impact": "Low",
+            "forecast": null,
+            "previous": null,
+            "actual": null,
+            "is_fed": true
+          },
+          {
+            "time_ct": "7:35 PM CT",
+            "title": "FOMC Member Daly Speaks",
+            "impact": "Low",
+            "forecast": null,
+            "previous": null,
+            "actual": null,
+            "is_fed": true
+          }
+        ]
+      },
+      {
+        "weekday": "Thursday",
+        "date_label": "Aug 6",
+        "events": [
+          {
+            "time_ct": "7:30 AM CT",
+            "title": "Unemployment Claims",
+            "impact": "Medium",
+            "forecast": "205K",
+            "previous": "197K",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "4:30 PM CT",
+            "title": "FOMC Member Musalem Speaks",
+            "impact": "Low",
+            "forecast": null,
+            "previous": null,
+            "actual": null,
+            "is_fed": true
+          }
+        ]
+      },
+      {
+        "weekday": "Friday",
+        "date_label": "Aug 7",
+        "events": [
+          {
+            "time_ct": "7:30 AM CT",
+            "title": "Average Hourly Earnings m/m",
+            "impact": "High",
+            "forecast": "0.3%",
+            "previous": "0.3%",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "7:30 AM CT",
+            "title": "Non-Farm Employment Change",
+            "impact": "High",
+            "forecast": "88K",
+            "previous": "57K",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "7:30 AM CT",
+            "title": "Unemployment Rate",
+            "impact": "High",
+            "forecast": "4.2%",
+            "previous": "4.2%",
+            "actual": null,
+            "is_fed": false
+          },
+          {
+            "time_ct": "9:00 AM CT",
+            "title": "FOMC Member Barkin Speaks",
+            "impact": "Low",
+            "forecast": null,
+            "previous": null,
+            "actual": null,
+            "is_fed": true
+          }
+        ]
+      },
+      {
+        "weekday": "Saturday",
+        "date_label": "Aug 8",
+        "events": [
+          {
+            "time_ct": "11:45 AM CT",
+            "title": "FOMC Member Bowman Speaks",
+            "impact": "Low",
+            "forecast": null,
+            "previous": null,
+            "actual": null,
+            "is_fed": true
+          }
+        ]
+      }
+    ]
   },
   "earnings": {
     "before_open": {
@@ -513,11 +677,11 @@
       "shown": [],
       "overflow_count": 0
     },
-    "fetched_at": "2026-08-02T22:25:37.797402-05:00",
+    "fetched_at": "2026-08-02T22:46:09.087813-05:00",
     "source": null
   },
   "news": {
-    "fetched_at": "2026-08-02T22:26:26.501310-05:00",
+    "fetched_at": "2026-08-02T22:46:56.410027-05:00",
     "headlines": [
       {
         "title": "Oil drops over 4% as Middle East tensions ebb on diplomatic efforts",

@@ -5,6 +5,7 @@ Independently runnable: `python -m src.fetch_calendar` prints its JSON.
 import json
 import logging
 import re
+from collections import OrderedDict
 from datetime import datetime
 
 from src.util import CT, load_config, now_ct, retry, session
@@ -21,18 +22,13 @@ def _fetch_feed(url: str) -> list:
     return resp.json()
 
 
-def fetch_calendar(cfg: dict = None) -> dict:
-    cfg = cfg or load_config()
-    raw = _fetch_feed(cfg["economic_calendar_url"])
-
-    today_ct = now_ct().date()
-    events = []
+def _qualifying_events(raw: list) -> list:
+    """USD events that are High/Medium impact, or any Fed/FOMC/Powell item regardless of impact."""
+    out = []
     for item in raw:
         try:
             dt = datetime.fromisoformat(item["date"]).astimezone(CT)
         except (KeyError, ValueError):
-            continue
-        if dt.date() != today_ct:
             continue
         if item.get("country") != "USD":
             continue
@@ -42,10 +38,10 @@ def fetch_calendar(cfg: dict = None) -> dict:
         if impact not in ("High", "Medium") and not is_fed:
             continue
 
-        events.append(
+        out.append(
             {
+                "dt": dt,
                 "time_ct": dt.strftime("%-I:%M %p CT"),
-                "sort_key": dt.isoformat(),
                 "title": item.get("title", ""),
                 "impact": impact,
                 "forecast": item.get("forecast") or None,
@@ -54,12 +50,35 @@ def fetch_calendar(cfg: dict = None) -> dict:
                 "is_fed": is_fed,
             }
         )
+    out.sort(key=lambda e: e["dt"])
+    return out
 
-    events.sort(key=lambda e: e["sort_key"])
-    for e in events:
-        del e["sort_key"]
 
-    return {"fetched_at": now_ct().isoformat(), "events": events}
+def fetch_calendar(cfg: dict = None) -> dict:
+    cfg = cfg or load_config()
+    raw = _fetch_feed(cfg["economic_calendar_url"])
+    qualifying = _qualifying_events(raw)
+
+    today_ct = now_ct().date()
+    events = []
+    week = OrderedDict()
+
+    for e in qualifying:
+        date = e["dt"].date()
+        row = {k: v for k, v in e.items() if k != "dt"}
+        if date == today_ct:
+            events.append(row)
+        elif date > today_ct:
+            key = date.isoformat()
+            if key not in week:
+                week[key] = {"weekday": e["dt"].strftime("%A"), "date_label": e["dt"].strftime("%b %-d"), "events": []}
+            week[key]["events"].append(row)
+
+    return {
+        "fetched_at": now_ct().isoformat(),
+        "events": events,
+        "week": list(week.values()),
+    }
 
 
 if __name__ == "__main__":

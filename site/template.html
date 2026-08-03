@@ -165,6 +165,7 @@ button:active { transform: scale(0.96); }
 }
 .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .unavailable { color: var(--dim); font-style: italic; font-size: 0.9rem; }
+.overnight-text { margin: 0; font-size: 0.9rem; color: var(--text); }
 .synth-headline { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.35; }
 .synth-block { margin-bottom: 12px; }
 .synth-block:last-child { margin-bottom: 0; }
@@ -179,11 +180,12 @@ button:active { transform: scale(0.96); }
 .down { color: var(--down); }
 .subhead { color: var(--dim); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 14px 0 8px; }
 .subhead:first-child { margin-top: 0; }
-.cal-row { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+.cal-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
 .cal-row:last-child { border-bottom: none; }
 .cal-time { font-family: 'IBM Plex Mono', monospace; color: var(--dim); flex-shrink: 0; width: 84px; }
-.cal-title { flex: 1; }
-.cal-meta { color: var(--dim); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+.cal-title { flex: 1; min-width: 160px; }
+.cal-meta { color: var(--dim); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; flex-basis: 100%; padding-left: 92px; }
+.cal-meta:empty { display: none; }
 .badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; border-radius: 5px; padding: 2px 6px; margin-left: 6px; }
 .badge-high { background: var(--brass); color: var(--bg); }
 .badge-med { border: 1px solid var(--brass); color: var(--brass); }
@@ -203,6 +205,7 @@ button:active { transform: scale(0.96); }
 .wl-row:last-child { border-bottom: none; }
 .wl-row.wl-hidden-item { opacity: 0.4; }
 .wl-row.dim-row .wl-right { opacity: 0.55; }
+.wl-row.wl-stale .wl-right { opacity: 0.6; }
 .wl-sym { font-weight: 600; flex-shrink: 0; }
 .wl-note { color: var(--dim); font-size: 0.72rem; }
 .wl-right { text-align: right; margin-left: auto; }
@@ -232,8 +235,17 @@ button:active { transform: scale(0.96); }
   padding: 8px 16px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer;
 }
 .lookup-btn:hover { opacity: 0.9; }
-.lookup-row { border-bottom: 1px solid var(--line); }
-.lookup-row:last-child { border-bottom: none; }
+.live-badge {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--up);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  border-bottom: none;
+}
+.wl-updated { margin-top: 10px; font-size: 0.72rem; color: var(--dim); text-align: right; min-height: 1em; }
+.add-ticker-hint { color: var(--dim); font-size: 0.82rem; margin: 0 0 12px; }
 
 .headline-row { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
 .headline-row:last-child { border-bottom: none; }
@@ -398,6 +410,15 @@ footer a { color: var(--dim); text-decoration: underline; }
   <div class="tab-panel" data-panel="news" hidden>
 
     <div class="card">
+      <div class="section-label">Overnight</div>
+      {% if digest.overnight %}
+        <p class="overnight-text">{{ digest.overnight }}</p>
+      {% else %}
+        <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
       <div class="section-label">Today's Calendar</div>
       {% if data.calendar.events %}
         {% for e in data.calendar.events %}
@@ -415,6 +436,32 @@ footer a { color: var(--dim); text-decoration: underline; }
         {% endfor %}
       {% elif data.calendar %}
         <p class="unavailable">No high-impact US releases today.</p>
+      {% else %}
+        <p class="unavailable">Data unavailable this morning.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="section-label">This Week</div>
+      {% if data.calendar.week %}
+        {% for day in data.calendar.week %}
+        <div class="subhead">{{ day.weekday }} · {{ day.date_label }}</div>
+        {% for e in day.events %}
+        <div class="cal-row">
+          <div class="cal-time mono">{{ e.time_ct }}</div>
+          <div class="cal-title">
+            {{ e.title }}
+            {% if e.is_fed %}<span class="bell" title="Fed speaker/release">&#128276;</span>{% endif %}
+            {% if e.impact == 'High' %}<span class="badge badge-high">HIGH</span>{% elif e.impact == 'Medium' %}<span class="badge badge-med">MED</span>{% endif %}
+          </div>
+          <div class="cal-meta">
+            {% if e.forecast %}fcst {{ e.forecast }}{% endif %}{% if e.forecast and e.previous %} · {% endif %}{% if e.previous %}prev {{ e.previous }}{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+      {% elif data.calendar %}
+        <p class="unavailable">Nothing else scheduled the rest of this week.</p>
       {% else %}
         <p class="unavailable">Data unavailable this morning.</p>
       {% endif %}
@@ -498,9 +545,12 @@ footer a { color: var(--dim); text-decoration: underline; }
   <!-- ═══════════════════ WATCHLIST ═══════════════════ -->
   <div class="tab-panel" data-panel="watchlist" hidden>
 
-    <div class="card" id="watchlist-card">
+    <div class="card" id="watchlist-card" data-proxy-url="{{ cfg.quote_proxy_url }}">
       <div class="card-head">
-        <div class="section-label">Watchlist</div>
+        <div class="section-label">
+          Watchlist
+          <span id="live-badge" class="live-badge" hidden>&#9679; LIVE</span>
+        </div>
         <button type="button" class="customize-btn" id="wl-customize-toggle">Customize</button>
       </div>
       {% if data.markets.watchlist %}
@@ -517,9 +567,9 @@ footer a { color: var(--dim); text-decoration: underline; }
               </span>
               <span class="wl-sym">{{ r.symbol }}</span>
               <span class="wl-right mono">
-                {{ r.premarket_price | fmt_price }} &nbsp;
-                <span class="{{ 'up' if r.premarket_pct and r.premarket_pct >= 0 else 'down' }}">{{ r.premarket_pct | fmt_pct }}</span>
-                {% if r.session == 'prev' %}<span class="wl-note">no pre-mkt print</span>{% endif %}
+                <span class="wl-price">{{ r.premarket_price | fmt_price }}</span> &nbsp;
+                <span class="wl-pct {{ 'up' if r.premarket_pct and r.premarket_pct >= 0 else 'down' }}">{{ r.premarket_pct | fmt_pct }}</span>
+                <span class="wl-note">{% if r.session == 'prev' %}no pre-mkt print{% endif %}</span>
               </span>
             </li>
             {% endfor %}
@@ -529,18 +579,23 @@ footer a { color: var(--dim); text-decoration: underline; }
       {% else %}
       <p class="unavailable">Data unavailable this morning.</p>
       {% endif %}
+      <div class="wl-group" data-group="Custom" id="wl-custom-group" hidden>
+        <div class="subhead">My Tickers</div>
+        <ul class="wl-rows" id="wl-custom-rows"></ul>
+      </div>
+      <div id="wl-updated" class="wl-updated"></div>
     </div>
 
     <div class="card">
-      <div class="section-label">Quick Lookup</div>
+      <div class="section-label">Add a Ticker</div>
       {% if cfg.quote_proxy_url %}
-        <form id="lookup-form" data-proxy-url="{{ cfg.quote_proxy_url }}">
+        <p class="add-ticker-hint">Adds it to your watchlist above, live-updated the same as the rest — saved in this browser, remove it anytime.</p>
+        <form id="add-ticker-form">
           <div class="lookup-form">
-            <input type="text" id="lookup-input" class="lookup-input mono" placeholder="TICKER" maxlength="12" autocapitalize="characters" autocomplete="off">
-            <button type="submit" class="lookup-btn">Look Up</button>
+            <input type="text" id="add-ticker-input" class="lookup-input mono" placeholder="TICKER" maxlength="12" autocapitalize="characters" autocomplete="off">
+            <button type="submit" class="lookup-btn">Add</button>
           </div>
         </form>
-        <div id="lookup-results"></div>
       {% else %}
         <p class="unavailable">Live ticker lookup isn't configured yet — see the README for the one-time setup.</p>
       {% endif %}
@@ -616,26 +671,40 @@ footer a { color: var(--dim); text-decoration: underline; }
   activate(saved && validTabs.indexOf(saved) !== -1 ? saved : 'summary');
 })();
 
-// ---- Watchlist customization (show/hide + reorder, saved in this browser) ----
+// ---- Watchlist: hide/reorder, custom tickers (add/remove), live polling ----
 (function () {
-  var STORAGE_KEY = 'mb-watchlist-prefs';
   var card = document.getElementById('watchlist-card');
   if (!card) return;
-  var groups = card.querySelectorAll('.wl-group');
+
+  var PREFS_KEY = 'mb-watchlist-prefs';
+  var CUSTOM_KEY = 'mb-custom-tickers';
+  var POLL_MS = 60000;
+
   var customizeToggle = document.getElementById('wl-customize-toggle');
+  var customGroup = document.getElementById('wl-custom-group');
+  var customRows = document.getElementById('wl-custom-rows');
+  var liveBadge = document.getElementById('live-badge');
+  var updatedEl = document.getElementById('wl-updated');
+  var proxyUrl = card.dataset.proxyUrl;
 
   function loadPrefs() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { hidden: [], order: {} }; }
+    try { return JSON.parse(localStorage.getItem(PREFS_KEY)) || { hidden: [], order: {} }; }
     catch (e) { return { hidden: [], order: {} }; }
   }
   function savePrefs(prefs) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs)); } catch (e) {}
+    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {}
+  }
+  function loadCustom() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveCustom(list) {
+    try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(list)); } catch (e) {}
   }
 
   var prefs = loadPrefs();
 
   function applyOrder() {
-    groups.forEach(function (group) {
+    card.querySelectorAll('.wl-group').forEach(function (group) {
       var order = prefs.order[group.dataset.group];
       if (!order) return;
       var list = group.querySelector('.wl-rows');
@@ -658,16 +727,54 @@ footer a { color: var(--dim); text-decoration: underline; }
     });
   }
 
+  function makeRow(symbol) {
+    var li = document.createElement('li');
+    li.className = 'wl-row';
+    li.dataset.symbol = symbol;
+    li.innerHTML =
+      '<span class="wl-controls">' +
+        '<button type="button" class="wl-ctrl-btn wl-up" title="Move up" aria-label="Move ' + symbol + ' up">&#8593;</button>' +
+        '<button type="button" class="wl-ctrl-btn wl-down" title="Move down" aria-label="Move ' + symbol + ' down">&#8595;</button>' +
+        '<button type="button" class="wl-ctrl-btn wl-remove" title="Remove" aria-label="Remove ' + symbol + '">&#10005;</button>' +
+      '</span>' +
+      '<span class="wl-sym">' + symbol + '</span>' +
+      '<span class="wl-right mono"><span class="wl-price">—</span> &nbsp; <span class="wl-pct">—</span><span class="wl-note"></span></span>';
+    return li;
+  }
+
+  function ensureCustomRow(symbol) {
+    var existing = customRows.querySelector('[data-symbol="' + symbol + '"]');
+    if (existing) return existing;
+    var row = makeRow(symbol);
+    customRows.appendChild(row);
+    customGroup.hidden = false;
+    return row;
+  }
+
+  function removeCustomRow(symbol) {
+    var row = customRows.querySelector('[data-symbol="' + symbol + '"]');
+    if (row) row.remove();
+    if (!customRows.children.length) customGroup.hidden = true;
+  }
+
+  loadCustom().forEach(ensureCustomRow);
+
   card.addEventListener('click', function (e) {
     var eyeBtn = e.target.closest('.wl-eye');
     var upBtn = e.target.closest('.wl-up');
     var downBtn = e.target.closest('.wl-down');
+    var removeBtn = e.target.closest('.wl-remove');
+
     if (eyeBtn) {
       var symbol = eyeBtn.closest('.wl-row').dataset.symbol;
       var idx = prefs.hidden.indexOf(symbol);
       if (idx === -1) prefs.hidden.push(symbol); else prefs.hidden.splice(idx, 1);
       savePrefs(prefs);
       applyVisibility();
+    } else if (removeBtn) {
+      var rsym = removeBtn.closest('.wl-row').dataset.symbol;
+      saveCustom(loadCustom().filter(function (s) { return s !== rsym; }));
+      removeCustomRow(rsym);
     } else if (upBtn || downBtn) {
       var row = (upBtn || downBtn).closest('.wl-row');
       var group = row.closest('.wl-group');
@@ -693,73 +800,89 @@ footer a { color: var(--dim); text-decoration: underline; }
 
   applyOrder();
   applyVisibility();
-})();
 
-// ---- Quick lookup (live quotes via the optional Cloudflare Worker proxy) ----
-(function () {
-  var form = document.getElementById('lookup-form');
-  if (!form) return;
-  var input = document.getElementById('lookup-input');
-  var resultsEl = document.getElementById('lookup-results');
-  var proxyUrl = form.dataset.proxyUrl;
-  var STORAGE_KEY = 'mb-lookup-history';
-  var MAX_HISTORY = 8;
-
-  function loadHistory() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (e) { return []; }
-  }
-  function saveHistory(list) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, MAX_HISTORY))); } catch (e) {}
-  }
-
-  function renderQuote(q) {
-    var div = document.createElement('div');
-    div.className = 'mover-row lookup-row';
-    if (q.error) {
-      div.innerHTML = '<span class="sym">' + q.symbol + '</span><span class="mono unavailable">' + q.error + '</span>';
-    } else {
-      var up = q.changePct != null && q.changePct >= 0;
-      var cls = up ? 'up' : 'down';
-      var pct = q.changePct != null ? (up ? '+' : '') + q.changePct.toFixed(2) + '%' : '—';
-      var price = q.price != null ? q.price.toFixed(2) : '—';
-      div.innerHTML = '<span class="sym">' + q.symbol + '</span><span class="mono ' + cls + '">' + price + ' &nbsp; ' + pct + '</span>';
-    }
-    return div;
-  }
-
-  function lookup(symbol) {
-    return fetch(proxyUrl + '?symbol=' + encodeURIComponent(symbol))
-      .then(function (res) { return res.json(); })
-      .then(function (data) { return (data.quotes && data.quotes[0]) || { symbol: symbol, error: 'no data' }; })
-      .catch(function () { return { symbol: symbol, error: 'lookup failed' }; });
-  }
-
-  function refreshAll() {
-    var history = loadHistory();
-    resultsEl.innerHTML = '';
-    if (history.length === 0) {
-      resultsEl.innerHTML = '<p class="unavailable">No lookups yet — try a ticker above.</p>';
-      return;
-    }
-    history.forEach(function (symbol) {
-      var placeholder = renderQuote({ symbol: symbol, error: 'loading…' });
-      resultsEl.appendChild(placeholder);
-      lookup(symbol).then(function (q) { placeholder.replaceWith(renderQuote(q)); });
+  var addForm = document.getElementById('add-ticker-form');
+  if (addForm) {
+    addForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = document.getElementById('add-ticker-input');
+      var symbol = (input.value || '').trim().toUpperCase();
+      if (!symbol) return;
+      input.value = '';
+      var custom = loadCustom();
+      if (custom.indexOf(symbol) === -1) {
+        custom.push(symbol);
+        saveCustom(custom);
+      }
+      ensureCustomRow(symbol);
+      poll();
     });
   }
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var symbol = (input.value || '').trim().toUpperCase();
-    if (!symbol) return;
-    var history = loadHistory().filter(function (s) { return s !== symbol; });
-    history.unshift(symbol);
-    saveHistory(history);
-    input.value = '';
-    refreshAll();
+  // ---- live polling (only when the Worker proxy is configured) ----
+  if (!proxyUrl) return;
+
+  function applyQuote(row, q) {
+    var priceEl = row.querySelector('.wl-price');
+    var pctEl = row.querySelector('.wl-pct');
+    var noteEl = row.querySelector('.wl-note');
+    if (!q || q.error || q.price == null) {
+      row.classList.add('wl-stale');
+      return;
+    }
+    row.classList.remove('wl-stale', 'dim-row');
+    priceEl.textContent = q.price.toFixed(2);
+    if (q.changePct != null) {
+      var up = q.changePct >= 0;
+      pctEl.textContent = (up ? '+' : '') + q.changePct.toFixed(2) + '%';
+      pctEl.classList.toggle('up', up);
+      pctEl.classList.toggle('down', !up);
+    }
+    if (noteEl) noteEl.textContent = '';
+  }
+
+  function allSymbols() {
+    var seen = {};
+    var list = [];
+    card.querySelectorAll('.wl-row[data-symbol]').forEach(function (row) {
+      var s = row.dataset.symbol;
+      if (!seen[s]) { seen[s] = true; list.push(s); }
+    });
+    return list;
+  }
+
+  function poll() {
+    var symbols = allSymbols();
+    if (!symbols.length) return;
+    fetch(proxyUrl + '?symbols=' + encodeURIComponent(symbols.join(',')))
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var bySymbol = {};
+        (data.quotes || []).forEach(function (q) { bySymbol[q.symbol] = q; });
+        symbols.forEach(function (sym) {
+          var row = card.querySelector('.wl-row[data-symbol="' + sym + '"]');
+          if (row) applyQuote(row, bySymbol[sym]);
+        });
+        if (liveBadge) liveBadge.hidden = false;
+        if (updatedEl) updatedEl.textContent = 'Live as of ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+      })
+      .catch(function () { /* silent -- next poll retries */ });
+  }
+
+  var pollTimer = null;
+  function startPolling() {
+    poll();
+    if (!pollTimer) pollTimer = setInterval(poll, POLL_MS);
+  }
+  function stopPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stopPolling(); else startPolling();
   });
 
-  refreshAll();
+  if (!document.hidden) startPolling();
 })();
 
 // ---- Install prompt (Chrome/Edge native prompt, manual instructions elsewhere) ----

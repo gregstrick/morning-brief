@@ -13,12 +13,15 @@ them):
    from the same market/calendar/earnings data below it by [`src/digest.py`](src/digest.py): plain Python
    rules (biggest overnight mover, today's highest-impact release, any watchlist name reporting earnings,
    etc.), so there's no API key, no cost, and no third-party ToS to worry about.
-2. **News & Calendar** — today's economic releases and Fed speakers, today's earnings reporters, headlines
+2. **News & Calendar** — an overnight recap, today's economic releases and Fed speakers, the rest of this
+   week's high-impact releases and Fed speakers (**This Week**), today's earnings reporters, and headlines
    from multiple reputable sources (CNBC, MarketWatch, Yahoo Finance).
 3. **Movers** — today's biggest pre-market gainers/losers (outliers) across the scan universe.
 4. **Watchlist** — your configured tickers, with a **Customize** toggle to show/hide and reorder them
-   (saved in your browser), plus an optional **Quick Lookup** box for live quotes on any ticker — see
-   [Live ticker lookup](#live-ticker-lookup-optional) below.
+   (saved in your browser). With the optional Cloudflare Worker proxy configured (see
+   [Live ticker lookup](#live-ticker-lookup-optional) below), the whole watchlist polls real prices every
+   ~60s while the page is open (paused when the tab isn't visible), and an **Add a Ticker** box lets you
+   permanently add any symbol — it joins the watchlist, live-updates the same way, remove it anytime.
 
 Full product spec: [`MorningBrief_Build_Spec.md`](MorningBrief_Build_Spec.md) (note: the spec's original
 design used an AI-written synthesis; that was swapped for the free deterministic digest above, everything
@@ -71,19 +74,23 @@ iteration — hard-reload or bump the `CACHE` constant in `site/sw.js` if a stal
 | Economic calendar | ForexFactory weekly feed, URL in `config.yml` (`economic_calendar_url`) | If it ever 404s, check the ForexFactory calendar-widget docs for the current feed URL |
 | Earnings | Nasdaq calendar API, Finnhub fallback | Nasdaq occasionally blocks datacenter IPs (GitHub runners); Finnhub needs `FINNHUB_API_KEY` |
 | Headlines | RSS feeds listed in `config.yml` (`rss_feeds`) | CNBC, MarketWatch, Yahoo Finance |
-| Watchlist tab's Quick Lookup | Your own Cloudflare Worker (optional) → Yahoo Finance | See below; blank `quote_proxy_url` just hides the box |
+| Watchlist tab's live prices + Add a Ticker | Your own Cloudflare Worker (optional) → Yahoo Finance | See below; blank `quote_proxy_url` leaves the watchlist at this morning's snapshot with no add-ticker box |
 
 A card showing "Data unavailable this morning" for more than a few days in a row usually means a feed URL
 moved — check the corresponding row above first.
 
 ## Live ticker lookup (optional)
 
-The Watchlist tab's **Quick Lookup** box fetches a live quote for any ticker you type, straight from your
-browser. Yahoo Finance doesn't allow direct cross-origin requests from a browser (no CORS header — verified,
-not assumed), so this needs one small piece of infrastructure between your phone/browser and Yahoo: a free
+With this set up, the Watchlist tab polls real prices for your whole watchlist (configured tickers + any
+you've added) roughly every 60 seconds while the page is open — paused automatically when the browser tab
+isn't visible, so it isn't burning requests in the background. Without it, the watchlist just shows this
+morning's snapshot and the Add a Ticker box says so.
+
+Yahoo Finance doesn't allow direct cross-origin requests from a browser (no CORS header — verified, not
+assumed), so this needs one small piece of infrastructure between your phone/browser and Yahoo: a free
 [Cloudflare Worker](https://workers.cloudflare.com/) that forwards the request and adds the header back.
 This is the only non-static piece of the whole project; skip this section entirely and the rest of the app
-works exactly the same, just without the Quick Lookup box.
+works exactly the same, just without live prices or the add-ticker box.
 
 1. Sign up for a free Cloudflare account (no credit card required for the Workers free tier) and go to
    **Workers & Pages → Create → Create Worker**.
@@ -92,7 +99,8 @@ works exactly the same, just without the Quick Lookup box.
 3. In that file, set `ALLOWED_ORIGIN` to your Pages URL (`https://<username>.github.io`) — this is what
    restricts who can use your Worker — then redeploy.
 4. Copy the Worker's URL (looks like `https://quote-proxy.<your-subdomain>.workers.dev`) into
-   `config/config.yml`'s `quote_proxy_url`, commit, and the Quick Lookup box appears on the next build.
+   `config/config.yml`'s `quote_proxy_url`, commit, and live prices + the Add a Ticker box appear on the
+   next build.
 
 The Worker only proxies `v8/finance/chart` (plain price + previous close, no crumb/cookie auth needed —
 it's the same endpoint the daily pipeline already uses successfully), caps each request at 5 symbols, and

@@ -1,13 +1,15 @@
 /**
  * Morning Brief — live quote proxy.
  *
- * The watchlist tab's "add a ticker" box needs a live price for symbols that
- * aren't in config.yml, fetched straight from the reader's browser. Yahoo
- * Finance doesn't send CORS headers, so a browser `fetch()` against it fails
- * outright (confirmed live: the request succeeds in no-cors mode but the
- * response can't be read). This Worker does the one thing a static GitHub
- * Pages site can't: sit between the browser and Yahoo, forward the request
- * server-to-server (no CORS restriction there), and add the header back in.
+ * Powers two things on the Watchlist tab: live-polling prices for the whole
+ * watchlist (configured tickers + anything the reader has added) every ~60s
+ * while the page is open, and one-off lookups for a new ticker before it's
+ * added. Yahoo Finance doesn't send CORS headers, so a browser `fetch()`
+ * against it fails outright (confirmed live: the request succeeds in
+ * no-cors mode but the response can't be read). This Worker does the one
+ * thing a static GitHub Pages site can't: sit between the browser and
+ * Yahoo, forward the request server-to-server (no CORS restriction there),
+ * and add the header back in.
  *
  * Deliberately hits the same Yahoo endpoint (v8/finance/chart) that
  * yfinance's fast_info/history calls use server-side in the daily pipeline —
@@ -85,7 +87,7 @@ export default {
       .split(",")
       .map((s) => s.trim().toUpperCase())
       .filter((s) => s && SYMBOL_RE.test(s))
-      .slice(0, 5); // small, deliberate cap -- this is a one-off lookup box, not a bulk quote API
+      .slice(0, 40); // deliberate cap -- covers a full watchlist + custom additions without becoming an open bulk-quote API
 
     if (symbols.length === 0) {
       return new Response(JSON.stringify({ error: "no valid symbols" }), {
