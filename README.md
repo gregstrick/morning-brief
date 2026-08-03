@@ -27,11 +27,17 @@ Full product spec: [`MorningBrief_Build_Spec.md`](MorningBrief_Build_Spec.md).
 3. **Add secrets.** Repo → Settings → Secrets and variables → Actions → new secret `ANTHROPIC_API_KEY`.
    Optionally register a free key at [finnhub.io](https://finnhub.io) and add `FINNHUB_API_KEY` as a
    fallback for the earnings calendar.
-4. **First run.** Actions tab → *Build Morning Brief* → **Run workflow**. Green check → the brief is live
-   at `https://<username>.github.io/morning-brief/`.
-5. **Install it.**
+4. **First run.** Actions tab → *Build Morning Brief* → **Run workflow**. Check **force** if you want a
+   live page right now regardless of what day it is (the scheduled run only publishes on trading days —
+   `force` bypasses that guard for on-demand testing). Green check → the brief is live at
+   `https://<username>.github.io/morning-brief/`.
+5. **Install it as an app.** It's a PWA, so any Chromium or Safari browser can install it as a standalone
+   window with its own icon — same brief, same URL, on every device:
    - **iPhone:** open the URL in Safari → Share → **Add to Home Screen**.
-   - **Mac:** Chrome's install icon in the address bar, or Safari → File → **Add to Dock**.
+   - **Mac:** Chrome/Edge's install icon (a monitor-with-arrow) in the address bar, or Safari → File →
+     **Add to Dock**.
+   - **Windows PC:** open the URL in Chrome or Edge → the install icon in the address bar (or menu → **Apps
+     → Install this site as an app**) → it lands in the Start Menu and taskbar like any other app.
 6. Edit `config/config.yml` any time to change the watchlist, universe, or feeds — commit and it takes
    effect on the next scheduled run (or trigger the workflow manually to see it now).
 

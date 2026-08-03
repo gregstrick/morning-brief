@@ -5,6 +5,11 @@ on:
     - cron: "40 12 * * 1-5"   # 7:40 AM CDT (summer)
     - cron: "40 13 * * 1-5"   # 7:40 AM CST (winter)
   workflow_dispatch:
+    inputs:
+      force:
+        description: "Bypass the trading-day guard (build now with live data even on a weekend/holiday)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -28,7 +33,7 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Build the brief
         id: build
-        run: python -m src.build >> "$GITHUB_OUTPUT"
+        run: python -m src.build ${{ inputs.force && '--force' || '' }} >> "$GITHUB_OUTPUT"
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
