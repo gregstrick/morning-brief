@@ -1,35 +1,35 @@
 {
-  "fetched_at": "2026-08-02T22:10:11.230551-05:00",
+  "fetched_at": "2026-08-02T22:25:37.797446-05:00",
   "markets": {
-    "fetched_at": "2026-08-02T22:10:11.230557-05:00",
+    "fetched_at": "2026-08-02T22:25:37.797457-05:00",
     "futures": [
       {
         "symbol": "ES=F",
         "name": "S&P 500",
-        "last": 7519.25,
+        "last": 7561.5,
         "prev_close": 7519.25,
-        "change_pct": 0.0
+        "change_pct": 0.5619
       },
       {
         "symbol": "NQ=F",
         "name": "Nasdaq 100",
-        "last": 28404.25,
+        "last": 28663.75,
         "prev_close": 28404.25,
-        "change_pct": 0.0
+        "change_pct": 0.9136
       },
       {
         "symbol": "YM=F",
         "name": "Dow",
-        "last": 52635.0,
+        "last": 52897.0,
         "prev_close": 52635.0,
-        "change_pct": 0.0
+        "change_pct": 0.4978
       },
       {
         "symbol": "RTY=F",
         "name": "Russell 2000",
-        "last": 2955.89990234375,
+        "last": 2955.5,
         "prev_close": 2938.0,
-        "change_pct": 0.6093
+        "change_pct": 0.5956
       }
     ],
     "volatility": [
@@ -52,16 +52,16 @@
       {
         "symbol": "^HSI",
         "name": "Hang Seng (closed)",
-        "last": 25924.220703125,
+        "last": 25925.30078125,
         "prev_close": 25884.4296875,
-        "change_pct": 0.1537
+        "change_pct": 0.1579
       },
       {
         "symbol": "000001.SS",
         "name": "Shanghai (closed)",
-        "last": 3809.839111328125,
+        "last": 3808.728271484375,
         "prev_close": 3835.30029296875,
-        "change_pct": -0.6639
+        "change_pct": -0.6928
       },
       {
         "symbol": "^FTSE",
@@ -119,16 +119,16 @@
       {
         "symbol": "DX-Y.NYB",
         "name": "Dollar index",
-        "last": 99.721,
+        "last": 99.75299835205078,
         "prev_close": 99.8030014038086,
-        "change_pct": -0.0822
+        "change_pct": -0.0501
       },
       {
         "symbol": "CL=F",
         "name": "WTI crude",
-        "last": 84.66999816894531,
+        "last": 79.87000274658203,
         "prev_close": 84.66999816894531,
-        "change_pct": 0.0
+        "change_pct": -5.6691
       },
       {
         "symbol": "BZ=F",
@@ -140,23 +140,23 @@
       {
         "symbol": "GC=F",
         "name": "Gold",
-        "last": 4049.10009765625,
+        "last": 4119.5,
         "prev_close": 4107.0,
-        "change_pct": -1.4098
+        "change_pct": 0.3044
       },
       {
         "symbol": "BTC-USD",
         "name": "Bitcoin",
-        "last": 63053.0,
+        "last": 63000.171875,
         "prev_close": 63499.48828125,
-        "change_pct": -0.7031
+        "change_pct": -0.7863
       },
       {
         "symbol": "ETH-USD",
         "name": "Ether",
-        "last": 1862.199951171875,
+        "last": 1860.02001953125,
         "prev_close": 1883.3499755859375,
-        "change_pct": -1.123
+        "change_pct": -1.2387
       }
     ],
     "recap": {
@@ -501,7 +501,7 @@
     }
   },
   "calendar": {
-    "fetched_at": "2026-08-02T22:10:48.705222-05:00",
+    "fetched_at": "2026-08-02T22:26:25.112648-05:00",
     "events": []
   },
   "earnings": {
@@ -513,11 +513,11 @@
       "shown": [],
       "overflow_count": 0
     },
-    "fetched_at": "2026-08-02T22:10:11.230529-05:00",
+    "fetched_at": "2026-08-02T22:25:37.797402-05:00",
     "source": null
   },
   "news": {
-    "fetched_at": "2026-08-02T22:10:50.569421-05:00",
+    "fetched_at": "2026-08-02T22:26:26.501310-05:00",
     "headlines": [
       {
         "title": "Oil drops over 4% as Middle East tensions ebb on diplomatic efforts",

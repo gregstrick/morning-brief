@@ -34,16 +34,24 @@ body {
   font-size: 16px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 .mono {
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-variant-numeric: tabular-nums;
 }
-a { color: var(--brass); text-decoration: none; }
+a { color: var(--brass); text-decoration: none; transition: opacity 0.15s ease; }
 a:hover, a:focus-visible { text-decoration: underline; }
+a:active { opacity: 0.7; }
 :focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
-button { font-family: inherit; }
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+}
+button:active { transform: scale(0.96); }
 .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
+.wrap-top { padding-bottom: 0; }
 .masthead { padding: 20px 16px 0; text-align: center; }
 .masthead h1 {
   font-family: 'Archivo', sans-serif;
@@ -55,6 +63,27 @@ button { font-family: inherit; }
 }
 .masthead .date { color: var(--dim); margin-top: 6px; font-size: 0.95rem; }
 .masthead .generated { color: var(--dim); font-size: 0.8rem; margin-top: 2px; }
+.install-btn {
+  margin-top: 14px;
+  background: var(--brass);
+  color: var(--bg);
+  border: none;
+  border-radius: 999px;
+  padding: 9px 22px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.install-btn:hover { opacity: 0.9; }
+.install-hint {
+  margin: 10px auto 0;
+  max-width: 320px;
+  font-size: 0.8rem;
+  color: var(--dim);
+  line-height: 1.4;
+}
 .banner {
   margin: 12px auto 0; max-width: 720px; background: var(--card); border: 1px solid var(--brass);
   color: var(--brass); border-radius: 10px; padding: 8px 14px; font-size: 0.85rem; text-align: center;
@@ -101,6 +130,13 @@ button { font-family: inherit; }
 .tab-btn.active { color: var(--brass); border-bottom-color: var(--brass); }
 .tab-btn:hover { color: var(--text); }
 .tab-panel[hidden] { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .tab-panel:not([hidden]) { animation: fadeIn 0.25s ease; }
+}
 
 .card {
   background: var(--card);
@@ -108,6 +144,12 @@ button { font-family: inherit; }
   border-radius: 12px;
   padding: 16px;
   margin-top: 16px;
+  transition: border-color 0.2s ease;
+}
+@media (hover: hover) {
+  .card:hover { border-color: #32404E; }
+  .tile { transition: border-color 0.15s ease; }
+  .tile:hover { border-color: #32404E; }
 }
 .section-label {
   font-family: 'Archivo', sans-serif;
@@ -204,12 +246,14 @@ footer a { color: var(--dim); text-decoration: underline; }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap wrap-top">
 
   <div class="masthead">
     <h1>{{ cfg.site_title | upper }}</h1>
     <div class="date">{{ edition_date.strftime('%A, %B %-d, %Y') }}</div>
     <div class="generated">Generated {{ generated_at.strftime('%-I:%M %p CT') }}</div>
+    <button type="button" id="install-btn" class="install-btn" hidden>Install App</button>
+    <div id="install-hint" class="install-hint" hidden></div>
   </div>
 
   {% if banner %}
@@ -716,6 +760,55 @@ footer a { color: var(--dim); text-decoration: underline; }
   });
 
   refreshAll();
+})();
+
+// ---- Install prompt (Chrome/Edge native prompt, manual instructions elsewhere) ----
+(function () {
+  var btn = document.getElementById('install-btn');
+  var hint = document.getElementById('install-hint');
+  if (!btn) return;
+
+  var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  if (isStandalone) return; // already installed -- leave the button hidden
+
+  var deferredPrompt = null;
+  btn.hidden = false;
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  window.addEventListener('appinstalled', function () {
+    btn.hidden = true;
+    hint.hidden = true;
+    deferredPrompt = null;
+  });
+
+  function showManualInstructions() {
+    var ua = navigator.userAgent;
+    var isIOS = /iPad|iPhone|iPod/.test(ua);
+    var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    var text;
+    if (isIOS) {
+      text = 'In Safari: tap the Share icon, then "Add to Home Screen".';
+    } else if (isSafari) {
+      text = 'In Safari: File menu → "Add to Dock".';
+    } else {
+      text = 'Look for an install icon in your browser’s address bar, or check the browser menu for "Install this site as an app".';
+    }
+    hint.textContent = text;
+    hint.hidden = false;
+  }
+
+  btn.addEventListener('click', function () {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function () { deferredPrompt = null; });
+    } else {
+      showManualInstructions();
+    }
+  });
 })();
 
 if ('serviceWorker' in navigator) {

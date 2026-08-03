@@ -23,7 +23,7 @@ def _horizon_gradient(width, height):
         (0.82, BRASS[:3]),
         (1.00, BRASS_LIGHT[:3]),
     ]
-    bar = Image.new("RGBA", (width, height))
+    row = Image.new("RGBA", (width, 1))
     for x in range(width):
         t = x / max(1, width - 1)
         for i in range(len(stops) - 1):
@@ -35,10 +35,9 @@ def _horizon_gradient(width, height):
                 r = int(c0[0] + (c1[0] - c0[0]) * local_t)
                 g = int(c0[1] + (c1[1] - c0[1]) * local_t)
                 b = int(c0[2] + (c1[2] - c0[2]) * local_t)
-                for y in range(height):
-                    bar.putpixel((x, y), (r, g, b, 255))
+                row.putpixel((x, 0), (r, g, b, 255))
                 break
-    return bar
+    return row.resize((width, height), Image.NEAREST)
 
 
 def _draw_bell(draw: ImageDraw.ImageDraw, cx, cy, scale):
@@ -82,28 +81,31 @@ def _draw_bell(draw: ImageDraw.ImageDraw, cx, cy, scale):
     draw.ellipse([cx - loop_r, top_y - loop_r * 1.3, cx + loop_r, top_y + loop_r * 0.7], outline=BRASS, width=max(2, int(scale * 0.03)))
 
 
+SUPERSAMPLE = 4  # draw at 4x, downsample with LANCZOS -- Pillow's primitives have hard,
+                  # non-anti-aliased edges at whatever size you draw them, so drawing
+                  # straight at 16-192px leaves visibly jagged curves. Draw big, shrink smooth.
+
+
 def _make_icon(size, padding_frac=0.0):
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    big = size * SUPERSAMPLE
+    img = Image.new("RGBA", (big, big), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    radius = int(size * 0.22)
-    draw.rounded_rectangle([0, 0, size - 1, size - 1], radius=radius, fill=BG)
+    radius = int(big * 0.22)
+    draw.rounded_rectangle([0, 0, big - 1, big - 1], radius=radius, fill=BG)
 
-    bar_h = max(2, int(size * 0.045))
-    bar = _horizon_gradient(size, bar_h)
-    mask = Image.new("L", (size, bar_h), 0)
-    mdraw = ImageDraw.Draw(mask)
-    mdraw.rectangle([0, 0, size, bar_h], fill=255)
-    img.paste(bar, (0, size - bar_h), mask)
+    bar_h = max(1, int(big * 0.045))
+    bar = _horizon_gradient(big, bar_h)
+    img.paste(bar, (0, big - bar_h))
 
-    content_scale = size * (1 - padding_frac * 2)
-    _draw_bell(draw, size / 2, size / 2 - size * 0.03, content_scale * 0.62)
+    content_scale = big * (1 - padding_frac * 2)
+    _draw_bell(draw, big / 2, big / 2 - big * 0.03, content_scale * 0.62)
 
     # Re-clip to rounded rect
-    clip_mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(clip_mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=radius, fill=255)
-    out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    clip_mask = Image.new("L", (big, big), 0)
+    ImageDraw.Draw(clip_mask).rounded_rectangle([0, 0, big - 1, big - 1], radius=radius, fill=255)
+    out = Image.new("RGBA", (big, big), (0, 0, 0, 0))
     out.paste(img, (0, 0), clip_mask)
-    return out
+    return out.resize((size, size), Image.LANCZOS)
 
 
 def main():
